@@ -21,7 +21,7 @@ namespace stajcsharp
         private Dictionary<string, int> attClass = new Dictionary<string, int>();
         private Dictionary<int, int> trackIds = new Dictionary<int, int>();
         private SelectionRectangle selectedRectangle = null;
-        private string returned, resizeHandle = string.Empty;
+        private string returned, resizeHandle = string.Empty, newFolderPath;
         private int returned2;
         private Rectangle selectionRect = Rectangle.Empty;
         private bool isDragging = false, isResizing = false;
@@ -46,10 +46,8 @@ namespace stajcsharp
         public void ShowForm2DialogBox()
         {
             Form2 testDialog = new Form2();
-            // Show testDialog as a modal dialog and determine if DialogResult = OK.
             if (testDialog.ShowDialog(this) == DialogResult.OK)
             {
-                // Read the contents of testDialog's TextBox.
                 returned = testDialog.textBox1.Text;
                 returned2 = Int32.Parse(testDialog.textBox2.Text);
             }
@@ -66,16 +64,12 @@ namespace stajcsharp
             {
                 if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
                 {
-                    // Seçilen klasörün yolunu alýn
                     string selectedFolder = folderBrowserDialog.SelectedPath;
 
-                    // Seçilen klasörün adýný alýn
                     string folderName = Path.GetFileName(selectedFolder);
 
-                    // Yeni klasör yolunu oluþturun
-                    string newFolderPath = Path.Combine(Path.GetDirectoryName(selectedFolder), folderName + "_json");
+                    newFolderPath = Path.Combine(Path.GetDirectoryName(selectedFolder), folderName + "_json");
 
-                    // Yeni klasörü oluþtur
                     if (!Directory.Exists(newFolderPath))
                     {
                         Directory.CreateDirectory(newFolderPath);
@@ -86,11 +80,9 @@ namespace stajcsharp
                         MessageBox.Show($"Klasör zaten mevcut: {newFolderPath}", "Bilgi");
                     }
 
-                    // ListBox'ý temizle ve önceki yollarý temizle
                     listBox1.Items.Clear();
                     imagePaths.Clear();
 
-                    // Klasördeki resim dosyalarýný al
                     string[] imageFiles = Directory.GetFiles(selectedFolder, "*.*", SearchOption.TopDirectoryOnly)
                                                     .Where(file => file.EndsWith(".jpg", StringComparison.OrdinalIgnoreCase) ||
                                                                    file.EndsWith(".jpeg", StringComparison.OrdinalIgnoreCase) ||
@@ -100,12 +92,11 @@ namespace stajcsharp
                                                     .ToArray();
 
 
-                    // Resim dosyalarýný iþleyin
                     foreach (string filePath in imageFiles)
                     {
-                        string fileName = Path.GetFileName(filePath); // Sadece dosya ismini al
-                        imagePaths[fileName] = filePath; // Dosya ismi ve tam yolu sakla
-                        listBox1.Items.Add(fileName); // ListBox'a sadece dosya ismini ekle
+                        string fileName = Path.GetFileName(filePath); 
+                        imagePaths[fileName] = filePath;
+                        listBox1.Items.Add(fileName);
                     }
 
                     foreach (string filePath in imageFiles)
@@ -146,18 +137,15 @@ namespace stajcsharp
 
         private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
         {
-            //if (pictureBox1.Image != null)
 
             if(e.Button == MouseButtons.Right)
             {
-                // Týklanan dikdörtgeni bul
                 rectCopy = rectangles;
                 rectCopy = rectCopy.OrderBy(r => r.Rect.Width * r.Rect.Height).ToList();
                 clickedRectangle = rectCopy.FirstOrDefault(r => r.Rect.Contains(e.Location));
                 if (clickedRectangle != null)
                 {
-                    // Seçili dikdörtgeni güncelle
-                    rectangles.ForEach(r => r.IsSelected = false); // Tüm seçimleri deselect yap
+                    rectangles.ForEach(r => r.IsSelected = false);
                     clickedRectangle.IsSelected = true;
                     selectedRectangle = clickedRectangle;
                     checkAtt();
@@ -171,7 +159,6 @@ namespace stajcsharp
 
                 if (clickedRectangle != null && rectCopy.FirstOrDefault(r => r.Rect.Contains(e.Location))==clickedRectangle)
                 {
-                    // Mevcut seçimde bir tutma noktasý týklandý mý kontrol et
                     resizeHandle = clickedRectangle.GetResizeHandle(e.Location);
 
                     if (!string.IsNullOrEmpty(resizeHandle))
@@ -185,7 +172,6 @@ namespace stajcsharp
                 }
                 else
                 {
-                    // Yeni bir dikdörtgen ekle
                     var newRectangle = new SelectionRectangle
                     {
                         Rect = new Rectangle(e.Location, Size.Empty),
@@ -193,10 +179,10 @@ namespace stajcsharp
                         Id = rectId++,
                     };
 
-                    rectangles.ForEach(r => r.IsSelected = false); // Tüm seçimleri deselect yap
+                    rectangles.ForEach(r => r.IsSelected = false);
                     rectangles.Add(newRectangle);
                     selectedRectangle = newRectangle;
-                    clickedRectangle = newRectangle; //yeni yapýlan resize olmuyor düzelt TODO
+                    clickedRectangle = newRectangle;
                     checkedListBox1.SetItemChecked(0, true);
                     numericUpDown1.Value = 0;
 
@@ -257,18 +243,16 @@ namespace stajcsharp
         {
             public Rectangle Rect { get; set; }
             public bool IsSelected { get; set; }
-            public int Id { get; set; } // Dikdörtgenin kimliði
+            public int Id { get; set; }
 
             private const int HandleSize = 12;
 
             public void Draw(Graphics graphics)
             {
-                // Dikdörtgen çiz
                 graphics.DrawRectangle(IsSelected ? Pens.Red : Pens.GreenYellow, Rect);
 
                 if (IsSelected)
                 {
-                    // Tutma noktalarýný çiz
                     foreach (var handle in GetResizeHandles())
                     {
                         graphics.FillRectangle(Brushes.Blue, handle);
@@ -376,16 +360,16 @@ namespace stajcsharp
 
         private void checkedListBox1_ItemCheck(object sender, ItemCheckEventArgs e)
         {
-            if (index == -1) //programmatic change, exit early; see below
+            if (index == -1)
                 return;
             else if (index == e.Index)
-                e.NewValue = CheckState.Checked; //undo an attempt to uncheck the checked item
+                e.NewValue = CheckState.Checked;
             else
             {
-                var oldIndex = index; //what item do we want to uncheck
-                index = -1; //prevent event handler firing again when we..
-                checkedListBox1.SetItemChecked(oldIndex, false); //..uncheck th old
-                index = e.Index; //track the newly checked
+                var oldIndex = index;
+                index = -1;
+                checkedListBox1.SetItemChecked(oldIndex, false);
+                index = e.Index;
             }
         }
 
@@ -425,58 +409,91 @@ namespace stajcsharp
 
         private void listBox1_MouseDown(object sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Right) // Sað týklama kontrolü
+            if (e.Button == MouseButtons.Right) 
             {
-                // Sað týklamanýn gerçekleþtiði pozisyonun Index'ini al
                 rightClickIndex = listBox1.IndexFromPoint(e.Location);
 
-                if (rightClickIndex != ListBox.NoMatches) // Eðer geçerli bir öðeye týklandýysa
+                if (rightClickIndex != ListBox.NoMatches) 
                 {
-                    listBox1.SelectedIndex = rightClickIndex; // Sað týklanan öðeyi seç
+                    listBox1.SelectedIndex = rightClickIndex;
 
-                    // Örneðin bir mesaj göstermek için
-                    contextMenuStrip1.Show(listBox1, e.Location); // ContextMenuStrip'i týklanan konumda göster
+                    contextMenuStrip1.Show(listBox1, e.Location); 
                 }
             }
         }
 
         private void selectFirstFrameToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string selectedItem = listBox1.Items[rightClickIndex].ToString(); // Týklanan öðenin adýný al
+            string selectedItem = listBox1.Items[rightClickIndex].ToString();
 
-            // Orijinal dosyanýn tam yolu
             string originalFilePath = imagePaths[selectedItem];
 
-            // _json klasörünün yolunu oluþtur
-            string jsonFolderPath = Path.Combine(Path.GetDirectoryName(originalFilePath)+ "_json");
-
-            // Ayný isimli .json dosyasýnýn yolunu oluþtur
-            string jsonFilePath = Path.Combine(jsonFolderPath, Path.GetFileNameWithoutExtension(originalFilePath) + ".json");
-
-            path1 = jsonFilePath;
+            path1 = originalFilePath;
             MessageBox.Show(path1);
         }
 
         private void selectSecondFrameToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string selectedItem = listBox1.Items[rightClickIndex].ToString(); // Týklanan öðenin adýný al
+            string selectedItem = listBox1.Items[rightClickIndex].ToString();
 
-            // Orijinal dosyanýn tam yolu
             string originalFilePath = imagePaths[selectedItem];
 
-            // _json klasörünün yolunu oluþtur
-            string jsonFolderPath = Path.Combine(Path.GetDirectoryName(originalFilePath) + "_json");
-
-            // Ayný isimli .json dosyasýnýn yolunu oluþtur
-            string jsonFilePath = Path.Combine(jsonFolderPath, Path.GetFileNameWithoutExtension(originalFilePath) + ".json");
-
-            path2 = jsonFilePath;
+            path2 = originalFilePath;
             MessageBox.Show(path2);
         }
 
         private void fillInbetweenToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //Calculations.CalcDiffs();
+            string prevAdd = "", currAdd, endAdd = "", begAdd = "";
+            bool ifFound = false;
+            int diff = 0;
+
+            foreach(var img in imagePaths)
+            {
+                if (ifFound)
+                {
+                    diff++;
+                }
+                if (img.Value == path1)
+                {
+                    begAdd = img.Value;
+                    ifFound = true;
+                }
+                else if (img.Value == path2)
+                {
+                    endAdd = img.Value;
+                    ifFound = false;
+                    break;
+                }
+            }
+
+            ifFound = false;
+            string begFilePath = Path.Combine(newFolderPath, Path.GetFileNameWithoutExtension(begAdd) + ".json");
+            string endFilePath = Path.Combine(newFolderPath, Path.GetFileNameWithoutExtension(endAdd) + ".json");
+
+            foreach(var img in imagePaths)
+            {
+                currAdd = img.Value;
+                if (ifFound)
+                {
+                    string prevFilePath = Path.Combine(newFolderPath, Path.GetFileNameWithoutExtension(prevAdd) + ".json");
+                    string currFilePath = Path.Combine(newFolderPath, Path.GetFileNameWithoutExtension(currAdd) + ".json");
+                    Calculations.calcNewPoints(prevFilePath, currFilePath, Calculations.calcPI(Calculations.CalcDiffs(begFilePath, endFilePath), diff));
+                    prevAdd = currAdd;
+                }
+                if (img.Value == path1)
+                {
+                    prevAdd = img.Value;
+                    ifFound = true;
+                }
+                else if( img.Value == path2){
+                    ifFound = false;
+                    break;
+                }
+            }
+
+            
+
         }
     }
 }

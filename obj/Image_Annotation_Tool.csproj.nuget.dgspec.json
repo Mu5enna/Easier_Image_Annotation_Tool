@@ -1,15 +1,15 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Eren\\Desktop\\Image_Annotation_Tool\\Image_Annotation_Tool\\stajcsharp.csproj": {}
+    "C:\\Users\\Eren\\Desktop\\Image_Annotation_Tool\\Image_Annotation_Tool\\Image_Annotation_Tool.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Eren\\Desktop\\Image_Annotation_Tool\\Image_Annotation_Tool\\stajcsharp.csproj": {
+    "C:\\Users\\Eren\\Desktop\\Image_Annotation_Tool\\Image_Annotation_Tool\\Image_Annotation_Tool.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Eren\\Desktop\\Image_Annotation_Tool\\Image_Annotation_Tool\\stajcsharp.csproj",
-        "projectName": "stajcsharp",
-        "projectPath": "C:\\Users\\Eren\\Desktop\\Image_Annotation_Tool\\Image_Annotation_Tool\\stajcsharp.csproj",
+        "projectUniqueName": "C:\\Users\\Eren\\Desktop\\Image_Annotation_Tool\\Image_Annotation_Tool\\Image_Annotation_Tool.csproj",
+        "projectName": "Image_Annotation_Tool",
+        "projectPath": "C:\\Users\\Eren\\Desktop\\Image_Annotation_Tool\\Image_Annotation_Tool\\Image_Annotation_Tool.csproj",
         "packagesPath": "C:\\Users\\Eren\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\Eren\\Desktop\\Image_Annotation_Tool\\Image_Annotation_Tool\\obj\\",
         "projectStyle": "PackageReference",
