@@ -137,15 +137,18 @@ namespace stajcsharp
 
         private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
         {
+            //if (pictureBox1.Image != null)
 
-            if(e.Button == MouseButtons.Right)
+            if (e.Button == MouseButtons.Right)
             {
+                // Týklanan dikdörtgeni bul
                 rectCopy = rectangles;
                 rectCopy = rectCopy.OrderBy(r => r.Rect.Width * r.Rect.Height).ToList();
                 clickedRectangle = rectCopy.FirstOrDefault(r => r.Rect.Contains(e.Location));
                 if (clickedRectangle != null)
                 {
-                    rectangles.ForEach(r => r.IsSelected = false);
+                    // Seçili dikdörtgeni güncelle
+                    rectangles.ForEach(r => r.IsSelected = false); // Tüm seçimleri deselect yap
                     clickedRectangle.IsSelected = true;
                     selectedRectangle = clickedRectangle;
                     checkAtt();
@@ -155,10 +158,9 @@ namespace stajcsharp
 
             if (e.Button == MouseButtons.Left)
             {
-                
-
-                if (clickedRectangle != null && rectCopy.FirstOrDefault(r => r.Rect.Contains(e.Location))==clickedRectangle)
+                if (clickedRectangle != null && rectCopy.FirstOrDefault(r => r.Rect.Contains(e.Location)) == clickedRectangle)
                 {
+                    // Mevcut seçimde bir tutma noktasý týklandý mý kontrol et
                     resizeHandle = clickedRectangle.GetResizeHandle(e.Location);
 
                     if (!string.IsNullOrEmpty(resizeHandle))
@@ -172,17 +174,21 @@ namespace stajcsharp
                 }
                 else
                 {
+                    // Yeni bir dikdörtgen ekle
                     var newRectangle = new SelectionRectangle
                     {
                         Rect = new Rectangle(e.Location, Size.Empty),
                         IsSelected = true,
-                        Id = rectId++,
+                        Id = rectId++
                     };
 
-                    rectangles.ForEach(r => r.IsSelected = false);
+                    rectangles.ForEach(r => r.IsSelected = false); // Tüm seçimleri deselect yap
                     rectangles.Add(newRectangle);
-                    selectedRectangle = newRectangle;
+                    rectCopy.Add(newRectangle);
+                    rectCopy = rectCopy.OrderBy(r => r.Rect.Width * r.Rect.Height).ToList();
                     clickedRectangle = newRectangle;
+                    clickedRectangle.IsSelected = true;
+                    selectedRectangle = clickedRectangle;
                     checkedListBox1.SetItemChecked(0, true);
                     numericUpDown1.Value = 0;
 
