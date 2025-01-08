@@ -43,6 +43,7 @@
             numericUpDown1 = new NumericUpDown();
             label1 = new Label();
             button5 = new Button();
+            button6 = new Button();
             contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDown1).BeginInit();
@@ -186,11 +187,23 @@
             button5.UseVisualStyleBackColor = true;
             button5.Click += button5_Click;
             // 
+            // button6
+            // 
+            button6.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            button6.Location = new Point(542, 441);
+            button6.Name = "button6";
+            button6.Size = new Size(120, 23);
+            button6.TabIndex = 11;
+            button6.Text = "Save";
+            button6.UseVisualStyleBackColor = true;
+            button6.Click += button6_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(923, 474);
+            Controls.Add(button6);
             Controls.Add(button5);
             Controls.Add(label1);
             Controls.Add(numericUpDown1);
@@ -227,5 +240,6 @@
         private ToolStripMenuItem selectFirstFrameToolStripMenuItem;
         private ToolStripMenuItem selectSecondFrameToolStripMenuItem;
         private ToolStripMenuItem fillInbetweenToolStripMenuItem;
+        private Button button6;
     }
 }

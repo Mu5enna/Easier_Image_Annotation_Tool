@@ -94,7 +94,7 @@ namespace stajcsharp
 
                     foreach (string filePath in imageFiles)
                     {
-                        string fileName = Path.GetFileName(filePath); 
+                        string fileName = Path.GetFileName(filePath);
                         imagePaths[fileName] = filePath;
                         listBox1.Items.Add(fileName);
                     }
@@ -105,7 +105,7 @@ namespace stajcsharp
                         if (!File.Exists(pathName + ".json"))
                         {
                             File.Create(pathName + ".json").Dispose();
-                            File.WriteAllText(pathName+".json","{\n}");
+                            File.WriteAllText(pathName + ".json", "{\n}");
                         }
                     }
 
@@ -117,11 +117,22 @@ namespace stajcsharp
         {
             if (listBox1.SelectedItem != null)
             {
+                rectangles.Clear();
+                rectCopy.Clear();
+                attributeBelong.Clear();
+                selectionAttPairs.Clear();
+                trackIds.Clear();
+
                 string selectedFileName = listBox1.SelectedItem.ToString();
                 if (imagePaths.TryGetValue(selectedFileName, out string selectedImagePath))
                 {
                     pictureBox1.Image = Image.FromFile(selectedImagePath);
                 }
+
+                //TODO
+                //jsondan çek
+                //resim koordinatýndan picturebox koordinatýna çevir
+                //liste ve dict leri geri doldur
             }
         }
 
@@ -137,8 +148,7 @@ namespace stajcsharp
 
         private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
         {
-            //if (pictureBox1.Image != null)
-
+            if (pictureBox1.Image != null)
             if (e.Button == MouseButtons.Right)
             {
                 // Týklanan dikdörtgeni bul
@@ -415,21 +425,22 @@ namespace stajcsharp
 
         private void listBox1_MouseDown(object sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Right) 
+            if (e.Button == MouseButtons.Right)
             {
                 rightClickIndex = listBox1.IndexFromPoint(e.Location);
 
-                if (rightClickIndex != ListBox.NoMatches) 
+                if (rightClickIndex != ListBox.NoMatches)
                 {
                     listBox1.SelectedIndex = rightClickIndex;
 
-                    contextMenuStrip1.Show(listBox1, e.Location); 
+                    contextMenuStrip1.Show(listBox1, e.Location);
                 }
             }
         }
 
         private void selectFirstFrameToolStripMenuItem_Click(object sender, EventArgs e)
         {
+
             string selectedItem = listBox1.Items[rightClickIndex].ToString();
 
             string originalFilePath = imagePaths[selectedItem];
@@ -440,6 +451,7 @@ namespace stajcsharp
 
         private void selectSecondFrameToolStripMenuItem_Click(object sender, EventArgs e)
         {
+
             string selectedItem = listBox1.Items[rightClickIndex].ToString();
 
             string originalFilePath = imagePaths[selectedItem];
@@ -454,7 +466,7 @@ namespace stajcsharp
             bool ifFound = false;
             int diff = 0;
 
-            foreach(var img in imagePaths)
+            foreach (var img in imagePaths)
             {
                 if (ifFound)
                 {
@@ -477,7 +489,7 @@ namespace stajcsharp
             string begFilePath = Path.Combine(newFolderPath, Path.GetFileNameWithoutExtension(begAdd) + ".json");
             string endFilePath = Path.Combine(newFolderPath, Path.GetFileNameWithoutExtension(endAdd) + ".json");
 
-            foreach(var img in imagePaths)
+            foreach (var img in imagePaths)
             {
                 currAdd = img.Value;
                 if (ifFound)
@@ -492,14 +504,65 @@ namespace stajcsharp
                     prevAdd = img.Value;
                     ifFound = true;
                 }
-                else if( img.Value == path2){
+                else if (img.Value == path2)
+                {
                     ifFound = false;
                     break;
                 }
             }
-
-            
-
         }
+
+        private Point ConvertToImageCoordinates(Point pictureBoxPoint)
+        {
+            if (pictureBox1.Image == null)
+                return Point.Empty;
+
+            // Görüntünün ve PictureBox'ýn boyutlarýný hesaplayýn
+            float aspectRatioImage = (float)pictureBox1.Image.Width / pictureBox1.Image.Height;
+            float aspectRatioBox = (float)pictureBox1.ClientSize.Width / pictureBox1.ClientSize.Height;
+
+            int displayedImageWidth, displayedImageHeight;
+            if (aspectRatioImage > aspectRatioBox)
+            {
+                displayedImageWidth = pictureBox1.ClientSize.Width;
+                displayedImageHeight = (int)(displayedImageWidth / aspectRatioImage);
+            }
+            else
+            {
+                displayedImageHeight = pictureBox1.ClientSize.Height;
+                displayedImageWidth = (int)(displayedImageHeight * aspectRatioImage);
+            }
+
+            // Görüntünün PictureBox içindeki yerleþimini hesaplayýn
+            int offsetX = (pictureBox1.ClientSize.Width - displayedImageWidth) / 2;
+            int offsetY = (pictureBox1.ClientSize.Height - displayedImageHeight) / 2;
+
+            // PictureBox koordinatlarýný kontrol edin
+            if (pictureBoxPoint.X < offsetX || pictureBoxPoint.X > offsetX + displayedImageWidth ||
+                pictureBoxPoint.Y < offsetY || pictureBoxPoint.Y > offsetY + displayedImageHeight)
+            {
+                return Point.Empty; // Görüntü dýþýnda bir týklama
+            }
+
+            // Koordinat dönüþümünü gerçekleþtirin
+            float scaleX = (float)pictureBox1.Image.Width / displayedImageWidth;
+            float scaleY = (float)pictureBox1.Image.Height / displayedImageHeight;
+
+            int imageX = (int)((pictureBoxPoint.X - offsetX) * scaleX);
+            int imageY = (int)((pictureBoxPoint.Y - offsetY) * scaleY);
+
+            return new Point(imageX, imageY);
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            //TODO
+            //picturebox koordinatýndan resim koordinatýna çevir
+            //jsona yaz
+            //save için kýsayol iyi olur
+        }
+
+        //TODO
+        //kare sil
     }
 }

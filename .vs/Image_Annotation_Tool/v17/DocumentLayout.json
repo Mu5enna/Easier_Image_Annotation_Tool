@@ -7,11 +7,7 @@
       "RelativeMoniker": "D:0:0:{F3143B28-EB02-4DDB-84BC-842894CC7709}|Image_Annotation_Tool.csproj|solutionrelative:form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F3143B28-EB02-4DDB-84BC-842894CC7709}|Image_Annotation_Tool.csproj|C:\\Users\\Serhat\\Desktop\\Image_Annotation_Tool\\form2.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{F3143B28-EB02-4DDB-84BC-842894CC7709}|Image_Annotation_Tool.csproj|solutionrelative:form2.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F3143B28-EB02-4DDB-84BC-842894CC7709}|Image_Annotation_Tool.csproj|c:\\users\\serhat\\desktop\\image_annotation_tool\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "AbsoluteMoniker": "D:0:0:{F3143B28-EB02-4DDB-84BC-842894CC7709}|Image_Annotation_Tool.csproj|C:\\Users\\Serhat\\Desktop\\Image_Annotation_Tool\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{F3143B28-EB02-4DDB-84BC-842894CC7709}|Image_Annotation_Tool.csproj|solutionrelative:form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
@@ -19,8 +15,8 @@
       "RelativeMoniker": "D:0:0:{F3143B28-EB02-4DDB-84BC-842894CC7709}|Image_Annotation_Tool.csproj|solutionrelative:form2.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F3143B28-EB02-4DDB-84BC-842894CC7709}|Image_Annotation_Tool.csproj|c:\\users\\serhat\\desktop\\image_annotation_tool\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F3143B28-EB02-4DDB-84BC-842894CC7709}|Image_Annotation_Tool.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F3143B28-EB02-4DDB-84BC-842894CC7709}|Image_Annotation_Tool.csproj|c:\\users\\serhat\\desktop\\image_annotation_tool\\form2.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{F3143B28-EB02-4DDB-84BC-842894CC7709}|Image_Annotation_Tool.csproj|solutionrelative:form2.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     }
   ],
   "DocumentGroupContainers": [
@@ -30,20 +26,32 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 2,
               "Title": "Form2.cs",
               "DocumentMoniker": "C:\\Users\\Serhat\\Desktop\\Image_Annotation_Tool\\Form2.cs",
               "RelativeDocumentMoniker": "Form2.cs",
               "ToolTip": "C:\\Users\\Serhat\\Desktop\\Image_Annotation_Tool\\Form2.cs",
               "RelativeToolTip": "Form2.cs",
-              "ViewState": "AQIAAAkAAAAAAAAAAAAAABYAAAAZAAAA",
+              "ViewState": "AQIAABAAAAAAAAAAAAAgwCoAAAApAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-08T13:40:22.953Z",
+              "WhenOpened": "2025-01-08T14:38:09.982Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Form2.cs [Tasar\u0131m]",
+              "DocumentMoniker": "C:\\Users\\Serhat\\Desktop\\Image_Annotation_Tool\\Form2.cs",
+              "RelativeDocumentMoniker": "Form2.cs",
+              "ToolTip": "C:\\Users\\Serhat\\Desktop\\Image_Annotation_Tool\\Form2.cs [Tasar\u0131m]",
+              "RelativeToolTip": "Form2.cs [Tasar\u0131m]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-08T14:38:07.779Z",
+              "EditorCaption": " [Tasar\u0131m]"
             },
             {
               "$type": "Document",
@@ -53,7 +61,7 @@
               "RelativeDocumentMoniker": "Form1.cs",
               "ToolTip": "C:\\Users\\Serhat\\Desktop\\Image_Annotation_Tool\\Form1.cs",
               "RelativeToolTip": "Form1.cs",
-              "ViewState": "AQIAAMoBAAAAAAAAAAAAANkBAAANAAAA",
+              "ViewState": "AQIAAHwAAAAAAAAAAAAAwDUCAAASAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-01-08T12:19:21.737Z",
               "EditorCaption": ""
@@ -61,30 +69,6 @@
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "Form2.cs [Tasar\u0131m]",
-              "DocumentMoniker": "C:\\Users\\Serhat\\Desktop\\Image_Annotation_Tool\\Form2.cs",
-              "RelativeDocumentMoniker": "Form2.cs",
-              "ToolTip": "C:\\Users\\Serhat\\Desktop\\Image_Annotation_Tool\\Form2.cs [Tasar\u0131m]",
-              "RelativeToolTip": "Form2.cs [Tasar\u0131m]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-08T12:08:18.559Z",
-              "EditorCaption": " [Tasar\u0131m]"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\Serhat\\Desktop\\Image_Annotation_Tool\\Program.cs",
-              "RelativeDocumentMoniker": "Program.cs",
-              "ToolTip": "C:\\Users\\Serhat\\Desktop\\Image_Annotation_Tool\\Program.cs",
-              "RelativeToolTip": "Program.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-08T12:08:15.311Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
               "Title": "Form1.cs [Tasar\u0131m]",
               "DocumentMoniker": "C:\\Users\\Serhat\\Desktop\\Image_Annotation_Tool\\Form1.cs",
               "RelativeDocumentMoniker": "Form1.cs",
