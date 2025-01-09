@@ -16,7 +16,6 @@ namespace stajcsharp
         private Dictionary<string, string> imagePaths = new Dictionary<string, string>();
         private Dictionary<int, string> attributeBelong = new Dictionary<int, string>();
         private List<SelectionRectangle> rectangles = new List<SelectionRectangle>();
-        private List<SelectionRectangle> rectCopy = new List<SelectionRectangle>();
         private Dictionary<int, int> selectionAttPairs = new Dictionary<int, int>();
         private Dictionary<string, int> attClass = new Dictionary<string, int>();
         private Dictionary<int, int> trackIds = new Dictionary<int, int>();
@@ -118,7 +117,7 @@ namespace stajcsharp
             if (listBox1.SelectedItem != null)
             {
                 rectangles.Clear();
-                rectCopy.Clear();
+                rectangles.Clear();
                 attributeBelong.Clear();
                 selectionAttPairs.Clear();
                 trackIds.Clear();
@@ -149,26 +148,25 @@ namespace stajcsharp
         private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
         {
             if (pictureBox1.Image != null)
-            if (e.Button == MouseButtons.Right)
-            {
-                // Týklanan dikdörtgeni bul
-                rectCopy = rectangles;
-                rectCopy = rectCopy.OrderBy(r => r.Rect.Width * r.Rect.Height).ToList();
-                clickedRectangle = rectCopy.FirstOrDefault(r => r.Rect.Contains(e.Location));
-                if (clickedRectangle != null)
+                if (e.Button == MouseButtons.Right)
                 {
-                    // Seçili dikdörtgeni güncelle
-                    rectangles.ForEach(r => r.IsSelected = false); // Tüm seçimleri deselect yap
-                    clickedRectangle.IsSelected = true;
-                    selectedRectangle = clickedRectangle;
-                    checkAtt();
-                    checkTrack();
+                    // Týklanan dikdörtgeni bul
+                    rectangles = rectangles.OrderBy(r => r.Rect.Width * r.Rect.Height).ToList();
+                    clickedRectangle = rectangles.FirstOrDefault(r => r.Rect.Contains(e.Location));
+                    if (clickedRectangle != null)
+                    {
+                        // Seçili dikdörtgeni güncelle
+                        rectangles.ForEach(r => r.IsSelected = false); // Tüm seçimleri deselect yap
+                        clickedRectangle.IsSelected = true;
+                        selectedRectangle = clickedRectangle;
+                        checkAtt();
+                        checkTrack();
+                    }
                 }
-            }
 
             if (e.Button == MouseButtons.Left)
             {
-                if (clickedRectangle != null && rectCopy.FirstOrDefault(r => r.Rect.Contains(e.Location)) == clickedRectangle)
+                if (clickedRectangle != null && rectangles.FirstOrDefault(r => r.Rect.Contains(e.Location)) == clickedRectangle)
                 {
                     // Mevcut seçimde bir tutma noktasý týklandý mý kontrol et
                     resizeHandle = clickedRectangle.GetResizeHandle(e.Location);
@@ -194,13 +192,15 @@ namespace stajcsharp
 
                     rectangles.ForEach(r => r.IsSelected = false); // Tüm seçimleri deselect yap
                     rectangles.Add(newRectangle);
-                    rectCopy.Add(newRectangle);
-                    rectCopy = rectCopy.OrderBy(r => r.Rect.Width * r.Rect.Height).ToList();
+                    rectangles = rectangles.OrderBy(r => r.Rect.Width * r.Rect.Height).ToList();
                     clickedRectangle = newRectangle;
                     clickedRectangle.IsSelected = true;
                     selectedRectangle = clickedRectangle;
                     checkedListBox1.SetItemChecked(0, true);
                     numericUpDown1.Value = 0;
+
+                    //TODO
+                    //düz týklama box oluþturmasýn
 
 
                     isDragging = false;
@@ -517,49 +517,63 @@ namespace stajcsharp
             if (pictureBox1.Image == null)
                 return Point.Empty;
 
-            // Görüntünün ve PictureBox'ýn boyutlarýný hesaplayýn
-            float aspectRatioImage = (float)pictureBox1.Image.Width / pictureBox1.Image.Height;
-            float aspectRatioBox = (float)pictureBox1.ClientSize.Width / pictureBox1.ClientSize.Height;
+            // PictureBox ve görüntü boyutlarýný al
+            var pictureBoxSize = pictureBox1.ClientSize;
+            var imageSize = pictureBox1.Image.Size;
 
-            int displayedImageWidth, displayedImageHeight;
-            if (aspectRatioImage > aspectRatioBox)
-            {
-                displayedImageWidth = pictureBox1.ClientSize.Width;
-                displayedImageHeight = (int)(displayedImageWidth / aspectRatioImage);
-            }
-            else
-            {
-                displayedImageHeight = pictureBox1.ClientSize.Height;
-                displayedImageWidth = (int)(displayedImageHeight * aspectRatioImage);
-            }
+            // Ölçek oranýný hesapla
+            double ratioWidth = (double)pictureBoxSize.Width / imageSize.Width;
+            double ratioHeight = (double)pictureBoxSize.Height / imageSize.Height;
+            double scaleRatio = Math.Min(ratioWidth, ratioHeight);
 
-            // Görüntünün PictureBox içindeki yerleþimini hesaplayýn
-            int offsetX = (pictureBox1.ClientSize.Width - displayedImageWidth) / 2;
-            int offsetY = (pictureBox1.ClientSize.Height - displayedImageHeight) / 2;
+            // Görüntünün görüntülendiði alaný hesapla
+            int displayedImageWidth = (int)(imageSize.Width * scaleRatio);
+            int displayedImageHeight = (int)(imageSize.Height * scaleRatio);
 
-            // PictureBox koordinatlarýný kontrol edin
-            if (pictureBoxPoint.X < offsetX || pictureBoxPoint.X > offsetX + displayedImageWidth ||
-                pictureBoxPoint.Y < offsetY || pictureBoxPoint.Y > offsetY + displayedImageHeight)
-            {
-                return Point.Empty; // Görüntü dýþýnda bir týklama
-            }
+            int offsetX = (pictureBoxSize.Width - displayedImageWidth) / 2;
+            int offsetY = (pictureBoxSize.Height - displayedImageHeight) / 2;
 
-            // Koordinat dönüþümünü gerçekleþtirin
-            float scaleX = (float)pictureBox1.Image.Width / displayedImageWidth;
-            float scaleY = (float)pictureBox1.Image.Height / displayedImageHeight;
-
-            int imageX = (int)((pictureBoxPoint.X - offsetX) * scaleX);
-            int imageY = (int)((pictureBoxPoint.Y - offsetY) * scaleY);
+            // PictureBox noktasýný resim koordinatlarýna dönüþtür
+            int imageX = (int)((pictureBoxPoint.X - offsetX) / scaleRatio);
+            int imageY = (int)((pictureBoxPoint.Y - offsetY) / scaleRatio);
 
             return new Point(imageX, imageY);
         }
 
+        private List<Point> GetRectangleCornersInImageCoordinates(Rectangle rect)
+        {
+            var corners = new List<Point>
+                {
+                    ConvertToImageCoordinates(new Point(rect.Left, rect.Top)), // Sol üst
+                    //ConvertToImageCoordinates(new Point(rect.Right, rect.Top)), // Sað üst
+                    //ConvertToImageCoordinates(new Point(rect.Left, rect.Bottom)), // Sol alt
+                    ConvertToImageCoordinates(new Point(rect.Right, rect.Bottom)) // Sað alt
+                };
+
+            return corners;
+        }
+
+
         private void button6_Click(object sender, EventArgs e)
         {
             //TODO
-            //picturebox koordinatýndan resim koordinatýna çevir
+            //picturebox koordinatýndan resim koordinatýna çevir - DONE
             //jsona yaz
             //save için kýsayol iyi olur
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            if (selectedRectangle != null)
+            {
+                List<Point> imageCoordinates = GetRectangleCornersInImageCoordinates(selectedRectangle.Rect);
+                MessageBox.Show(selectedRectangle.Rect.X.ToString() + selectedRectangle.Rect.Y.ToString() + (selectedRectangle.Rect.Width + selectedRectangle.Rect.X).ToString() + (selectedRectangle.Rect.Height + selectedRectangle.Rect.Y).ToString());
+
+                foreach (var point in imageCoordinates)
+                {
+                    MessageBox.Show($"Image Coordinates: X={point.X}, Y={point.Y}");
+                }
+            }
         }
 
         //TODO
