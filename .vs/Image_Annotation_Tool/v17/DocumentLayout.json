@@ -7,20 +7,8 @@
       "RelativeMoniker": "D:0:0:{F3143B28-EB02-4DDB-84BC-842894CC7709}|Image_Annotation_Tool.csproj|solutionrelative:form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F3143B28-EB02-4DDB-84BC-842894CC7709}|Image_Annotation_Tool.csproj|c:\\users\\serhat\\desktop\\image_annotation_tool\\classes\\calculations.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F3143B28-EB02-4DDB-84BC-842894CC7709}|Image_Annotation_Tool.csproj|solutionrelative:classes\\calculations.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Serhat\\Desktop\\Genel\\Foto\u011Fraflar_json\\BUders Bo\u011Fazi\u00E7ili.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Serhat\\Desktop\\Genel\\Foto\u011Fraflar_json\\deadpool-scream-doaly.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Serhat\\Desktop\\Genel\\Foto\u011Fraflar_json\\wtf is cheese.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Serhat\\Desktop\\Genel\\Foto\u011Fraflar_json\\dripped_arthur.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+      "AbsoluteMoniker": "D:0:0:{F3143B28-EB02-4DDB-84BC-842894CC7709}|Image_Annotation_Tool.csproj|C:\\Users\\Serhat\\Desktop\\Image_Annotation_Tool\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{F3143B28-EB02-4DDB-84BC-842894CC7709}|Image_Annotation_Tool.csproj|solutionrelative:form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F3143B28-EB02-4DDB-84BC-842894CC7709}|Image_Annotation_Tool.csproj|C:\\Users\\Serhat\\Desktop\\Image_Annotation_Tool\\form2.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
@@ -31,8 +19,8 @@
       "RelativeMoniker": "D:0:0:{F3143B28-EB02-4DDB-84BC-842894CC7709}|Image_Annotation_Tool.csproj|solutionrelative:form2.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F3143B28-EB02-4DDB-84BC-842894CC7709}|Image_Annotation_Tool.csproj|C:\\Users\\Serhat\\Desktop\\Image_Annotation_Tool\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{F3143B28-EB02-4DDB-84BC-842894CC7709}|Image_Annotation_Tool.csproj|solutionrelative:form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+      "AbsoluteMoniker": "D:0:0:{F3143B28-EB02-4DDB-84BC-842894CC7709}|Image_Annotation_Tool.csproj|c:\\users\\serhat\\desktop\\image_annotation_tool\\classes\\calculations.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F3143B28-EB02-4DDB-84BC-842894CC7709}|Image_Annotation_Tool.csproj|solutionrelative:classes\\calculations.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -42,7 +30,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 8,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Bookmark",
@@ -50,59 +38,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "deadpool-scream-doaly.json",
-              "DocumentMoniker": "C:\\Users\\Serhat\\Desktop\\Genel\\Foto\u011Fraflar_json\\deadpool-scream-doaly.json",
-              "RelativeDocumentMoniker": "..\\Genel\\Foto\u011Fraflar_json\\deadpool-scream-doaly.json",
-              "ToolTip": "C:\\Users\\Serhat\\Desktop\\Genel\\Foto\u011Fraflar_json\\deadpool-scream-doaly.json",
-              "RelativeToolTip": "..\\Genel\\Foto\u011Fraflar_json\\deadpool-scream-doaly.json",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAEAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-01-09T13:25:50.472Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "BUders Bo\u011Fazi\u00E7ili.json",
-              "DocumentMoniker": "C:\\Users\\Serhat\\Desktop\\Genel\\Foto\u011Fraflar_json\\BUders Bo\u011Fazi\u00E7ili.json",
-              "RelativeDocumentMoniker": "..\\Genel\\Foto\u011Fraflar_json\\BUders Bo\u011Fazi\u00E7ili.json",
-              "ToolTip": "C:\\Users\\Serhat\\Desktop\\Genel\\Foto\u011Fraflar_json\\BUders Bo\u011Fazi\u00E7ili.json",
-              "RelativeToolTip": "..\\Genel\\Foto\u011Fraflar_json\\BUders Bo\u011Fazi\u00E7ili.json",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-01-09T13:25:41.394Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "wtf is cheese.json",
-              "DocumentMoniker": "C:\\Users\\Serhat\\Desktop\\Genel\\Foto\u011Fraflar_json\\wtf is cheese.json",
-              "RelativeDocumentMoniker": "..\\Genel\\Foto\u011Fraflar_json\\wtf is cheese.json",
-              "ToolTip": "C:\\Users\\Serhat\\Desktop\\Genel\\Foto\u011Fraflar_json\\wtf is cheese.json",
-              "RelativeToolTip": "..\\Genel\\Foto\u011Fraflar_json\\wtf is cheese.json",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-01-09T13:20:06.422Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "dripped_arthur.json",
-              "DocumentMoniker": "C:\\Users\\Serhat\\Desktop\\Genel\\Foto\u011Fraflar_json\\dripped_arthur.json",
-              "RelativeDocumentMoniker": "..\\Genel\\Foto\u011Fraflar_json\\dripped_arthur.json",
-              "ToolTip": "C:\\Users\\Serhat\\Desktop\\Genel\\Foto\u011Fraflar_json\\dripped_arthur.json",
-              "RelativeToolTip": "..\\Genel\\Foto\u011Fraflar_json\\dripped_arthur.json",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-01-09T12:25:30.334Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
               "Title": "Calculations.cs",
               "DocumentMoniker": "C:\\Users\\Serhat\\Desktop\\Image_Annotation_Tool\\Classes\\Calculations.cs",
               "RelativeDocumentMoniker": "Classes\\Calculations.cs",
@@ -110,33 +46,31 @@
               "RelativeToolTip": "Classes\\Calculations.cs",
               "ViewState": "AQIAAFsAAAAAAAAAAAAqwHsAAAAwAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-09T12:02:28.932Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-01-09T12:02:28.932Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 3,
               "Title": "Form2.cs",
               "DocumentMoniker": "C:\\Users\\Serhat\\Desktop\\Image_Annotation_Tool\\Form2.cs",
               "RelativeDocumentMoniker": "Form2.cs",
               "ToolTip": "C:\\Users\\Serhat\\Desktop\\Image_Annotation_Tool\\Form2.cs",
               "RelativeToolTip": "Form2.cs",
-              "ViewState": "AQIAABAAAAAAAAAAAAAgwCoAAAApAAAA",
+              "ViewState": "AQIAABAAAAAAAAAAAAAgwCAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-01-08T14:38:09.982Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 2,
               "Title": "Form2.cs [Tasar\u0131m]",
               "DocumentMoniker": "C:\\Users\\Serhat\\Desktop\\Image_Annotation_Tool\\Form2.cs",
               "RelativeDocumentMoniker": "Form2.cs",
               "ToolTip": "C:\\Users\\Serhat\\Desktop\\Image_Annotation_Tool\\Form2.cs [Tasar\u0131m]",
               "RelativeToolTip": "Form2.cs [Tasar\u0131m]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-08T14:38:07.779Z",
-              "EditorCaption": " [Tasar\u0131m]"
+              "WhenOpened": "2025-01-08T14:38:07.779Z"
             },
             {
               "$type": "Document",
@@ -146,22 +80,21 @@
               "RelativeDocumentMoniker": "Form1.cs",
               "ToolTip": "C:\\Users\\Serhat\\Desktop\\Image_Annotation_Tool\\Form1.cs",
               "RelativeToolTip": "Form1.cs",
-              "ViewState": "AQIAAJgCAAAAAAAAAAAuwIsCAAAQAAAA",
+              "ViewState": "AQIAAKQAAAAAAAAAAAAUwLAAAAAwAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-01-08T12:19:21.737Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 1,
               "Title": "Form1.cs [Tasar\u0131m]",
               "DocumentMoniker": "C:\\Users\\Serhat\\Desktop\\Image_Annotation_Tool\\Form1.cs",
               "RelativeDocumentMoniker": "Form1.cs",
               "ToolTip": "C:\\Users\\Serhat\\Desktop\\Image_Annotation_Tool\\Form1.cs [Tasar\u0131m]",
               "RelativeToolTip": "Form1.cs [Tasar\u0131m]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-08T12:05:21.704Z",
-              "EditorCaption": " [Tasar\u0131m]"
+              "WhenOpened": "2025-01-08T12:05:21.704Z"
             }
           ]
         }
