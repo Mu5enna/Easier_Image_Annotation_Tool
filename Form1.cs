@@ -13,8 +13,8 @@ namespace stajcsharp
 {
     public partial class Form1 : Form
     {
+        readonly Queue<string> pendingMessages = new Queue<string>();
         private Dictionary<string, string> imagePaths = new Dictionary<string, string>();
-        private Dictionary<int, string> attributeBelong = new Dictionary<int, string>();
         private List<SelectionRectangle> rectangles = new List<SelectionRectangle>();
         private Dictionary<int, int> selectionAttPairs = new Dictionary<int, int>();
         private Dictionary<string, int> attClass = new Dictionary<string, int>();
@@ -34,13 +34,6 @@ namespace stajcsharp
             InitializeComponent();
             checkedListBox1.SetItemChecked(0, true);
         }
-
-        OpenFileDialog openFileDialog = new OpenFileDialog
-        {
-            Multiselect = true,
-            Filter = "Resim Dosyalarý|*.jpg;*.jpeg;*.png;*.bmp;*.gif",
-            Title = "Resim Dosyalarýný Seç"
-        };
 
         public void ShowForm2DialogBox()
         {
@@ -108,6 +101,33 @@ namespace stajcsharp
                         }
                     }
 
+                    string attTxt = Path.Combine(newFolderPath,"attributes.txt");
+                    if (!File.Exists(attTxt))
+                    {
+                        File.Create(attTxt).Dispose();
+                        File.WriteAllText(attTxt, "attributeName , attributeClass (order matters, do not change anything in this file)");
+                    }
+                    else
+                    {
+                        try
+                        {
+                            StreamReader sr = new StreamReader(attTxt);
+                            string line = sr.ReadLine();
+                            line = sr.ReadLine();
+                            while (line != null)
+                            {
+                                checkedListBox1.Items.Add(line.Split(" , ")[0]);
+                                attClass.Add(line.Split(" , ")[0], Int32.Parse(line.Split(" , ")[1]));
+                                line = sr.ReadLine();
+                            }
+                            sr.Dispose();
+                        }
+                        catch (Exception ex) 
+                        {
+                            MessageBox.Show("Hata: "+ex);
+                        }
+                    }
+
                 }
             }
         }
@@ -117,10 +137,9 @@ namespace stajcsharp
             if (listBox1.SelectedItem != null)
             {
                 rectangles.Clear();
-                rectangles.Clear();
-                attributeBelong.Clear();
                 selectionAttPairs.Clear();
                 trackIds.Clear();
+                rectId = 0;
 
                 string selectedFileName = listBox1.SelectedItem.ToString();
                 if (imagePaths.TryGetValue(selectedFileName, out string selectedImagePath))
@@ -142,6 +161,18 @@ namespace stajcsharp
             {
                 attClass.Add(returned, returned2);
                 checkedListBox1.Items.Add(returned);
+                try
+                {
+                    string attTxt = Path.Combine(newFolderPath, "attributes.txt");
+                    if(attTxt != null)
+                    {
+                        File.AppendAllText(attTxt, $"\n{returned} , {returned2}");
+                    }
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show("Hata: "+ex);
+                }
             }
         }
 
@@ -246,6 +277,16 @@ namespace stajcsharp
         {
             isDragging = false;
             isResizing = false;
+
+            if (selectedRectangle != null && selectedRectangle.IsSelected)
+            {
+                if (selectedRectangle.Rect.Width < 5 && selectedRectangle.Rect.Height < 5)
+                {
+                    rectangles.Remove(selectedRectangle);
+                    selectedRectangle = null;
+                    rectId--;
+                }
+            }
         }
 
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
@@ -376,6 +417,8 @@ namespace stajcsharp
 
         private void checkedListBox1_ItemCheck(object sender, ItemCheckEventArgs e)
         {
+            if (pictureBox1.Image is null)
+                return;
             if (index == -1)
                 return;
             else if (index == e.Index)
