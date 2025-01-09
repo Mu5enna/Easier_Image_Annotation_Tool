@@ -33,8 +33,12 @@ namespace Image_Annotation_Tool
 
             foreach (var entry1 in jsonObject1)
             {
+                if (entry1.Value.TrackId == 0) { continue; }
+
                 foreach (var entry2 in jsonObject2)
                 {
+                    if (entry2.Value.TrackId == 0) { continue; }
+
                     if (entry1.Value.TrackId == entry2.Value.TrackId)
                     {
                         Console.WriteLine($"Track ID: {entry1.Value.TrackId}");
@@ -106,7 +110,7 @@ namespace Image_Annotation_Tool
                 {
                     if (entryPrev.Value.TrackId == calcPI[i][4])
                     {
-                        currJsonObject[i.ToString()] = new JsonData
+                        currJsonObject[entryPrev.Key] = new JsonData
                         {
                             Box = new List<float> { entryPrev.Value.Box[0] + calcPI[i][0], entryPrev.Value.Box[1] + calcPI[i][1], entryPrev.Value.Box[2] + calcPI[i][2], entryPrev.Value.Box[3] + calcPI[i][3] },
                             Class = entryPrev.Value.Class,

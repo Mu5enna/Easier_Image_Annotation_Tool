@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Image_Annotation_Tool")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+200ed2150ef3088b39fa331d8e9fd27f35be3f1c")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f30053169f36c242d80bf4807db217ab80c1a1ac")]
 [assembly: System.Reflection.AssemblyProductAttribute("Image_Annotation_Tool")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Image_Annotation_Tool")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

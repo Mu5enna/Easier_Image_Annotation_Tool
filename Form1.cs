@@ -8,6 +8,7 @@ using System.Numerics;
 using System.IO;
 using Newtonsoft.Json;
 using Image_Annotation_Tool;
+using static Image_Annotation_Tool.Calculations;
 
 namespace stajcsharp
 {
@@ -603,6 +604,25 @@ namespace stajcsharp
             //picturebox koordinatýndan resim koordinatýna çevir - DONE
             //jsona yaz
             //save için kýsayol iyi olur
+
+            foreach (var rect in rectangles)
+            {
+                List<Point> imageCoordinates = GetRectangleCornersInImageCoordinates(rect.Rect);
+                imagePaths.TryGetValue(listBox1.SelectedItem.ToString(), out string selectedImagePath);
+                string jsonPath = Path.Combine(newFolderPath, Path.GetFileNameWithoutExtension(selectedImagePath) + ".json");
+                string jsonFile = File.ReadAllText(jsonPath);
+                var jsonObject = JsonConvert.DeserializeObject<Dictionary<string, JsonData>>(jsonFile);
+
+                jsonObject[rect.Id.ToString()] = new JsonData
+                {
+                    Box = new List<float> { imageCoordinates[0].X, imageCoordinates[0].Y, imageCoordinates[1].X, imageCoordinates[1].Y },
+                    Class = attClass[checkedListBox1.Items[selectionAttPairs[rect.Id]].ToString()],
+                    TrackId = trackIds[rect.Id]
+                };
+
+                string updJson = JsonConvert.SerializeObject(jsonObject, Formatting.Indented);
+                File.WriteAllText(jsonPath, updJson);
+            }
         }
 
         private void button3_Click(object sender, EventArgs e)
