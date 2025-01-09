@@ -148,10 +148,43 @@ namespace stajcsharp
                     pictureBox1.Image = Image.FromFile(selectedImagePath);
                 }
 
+                string path = Path.Combine(newFolderPath, Path.GetFileNameWithoutExtension(selectedImagePath) + ".json");
+
+                var jsonData = File.ReadAllText(path);
+
+                var jsonObject = JsonConvert.DeserializeObject<Dictionary<string,JsonData>>(jsonData);
+
+                foreach (var entry in jsonObject)
+                {
+                    string entryID = entry.Key;
+                    List<float> boxCoor = new List<float>() { entry.Value.Box[0], entry.Value.Box[1], entry.Value.Box[2], entry.Value.Box[3] };
+                    //TODO
+                    //FUCK
+                    Rectangle rectInPictureBox = ImageCoordinatesToPictureBox(pictureBox1, new Rectangle(
+                        (int)boxCoor[0],
+                        (int)boxCoor[1],
+                        (int)(boxCoor[2] - boxCoor[0]),
+                        (int)(boxCoor[3] - boxCoor[1])
+                    ));
+
+                    // Dikdörtgeni rectangles listesine ekle
+                    var newRectangle = new SelectionRectangle
+                    {
+                        Rect = rectInPictureBox,
+                        IsSelected = false,
+                        Id = int.Parse(entryID)
+                    };
+                    rectangles.Add(newRectangle);
+                    //TODO
+                    float Class = entry.Value.Class;
+                    float TrackId = entry.Value.TrackId;
+
+                }
                 //TODO
-                //jsondan çek
-                //resim koordinatýndan picturebox koordinatýna çevir
+                //jsondan çek - DONE
+                //resim koordinatýndan picturebox koordinatýna çevir - DONE
                 //liste ve dict leri geri doldur
+                pictureBox1.Invalidate();
             }
         }
 
@@ -230,10 +263,6 @@ namespace stajcsharp
                     selectedRectangle = clickedRectangle;
                     checkedListBox1.SetItemChecked(0, true);
                     numericUpDown1.Value = 0;
-
-                    //TODO
-                    //düz týklama box oluþturmasýn
-
 
                     isDragging = false;
                     isResizing = false;
@@ -459,7 +488,14 @@ namespace stajcsharp
 
         private void button5_Click(object sender, EventArgs e)
         {
-            trackIds.Add(selectedRectangle.Id, (int)numericUpDown1.Value);
+            if (trackIds.ContainsKey(selectedRectangle.Id))
+            {
+                trackIds[selectedRectangle.Id]= (int)numericUpDown1.Value;
+            }
+            else
+            {
+                trackIds.Add(selectedRectangle.Id, (int)numericUpDown1.Value);
+            }
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)
@@ -602,7 +638,7 @@ namespace stajcsharp
         {
             //TODO
             //picturebox koordinatýndan resim koordinatýna çevir - DONE
-            //jsona yaz
+            //jsona yaz - DONE
             //save için kýsayol iyi olur
 
             foreach (var rect in rectangles)
@@ -641,5 +677,41 @@ namespace stajcsharp
 
         //TODO
         //kare sil
+
+        private Rectangle ImageCoordinatesToPictureBox(PictureBox pictureBox, Rectangle imageRect)
+        {
+            if (pictureBox.Image == null) return Rectangle.Empty;
+
+            var image = pictureBox.Image;
+            var pbSize = pictureBox.ClientSize;
+
+            float imageAspect = (float)image.Width / image.Height;
+            float pbAspect = (float)pbSize.Width / pbSize.Height;
+
+            float scale;
+            int offsetX = 0, offsetY = 0;
+
+            if (pbAspect > imageAspect)
+            {
+                // PictureBox yatay olarak geniþ
+                scale = (float)pbSize.Height / image.Height;
+                offsetX = (int)((pbSize.Width - image.Width * scale) / 2);
+            }
+            else
+            {
+                // PictureBox dikey olarak uzun
+                scale = (float)pbSize.Width / image.Width;
+                offsetY = (int)((pbSize.Height - image.Height * scale) / 2);
+            }
+
+            return new Rectangle(
+                (int)(imageRect.X * scale + offsetX),
+                (int)(imageRect.Y * scale + offsetY),
+                (int)(imageRect.Width * scale),
+                (int)(imageRect.Height * scale)
+            );
+        }
+
+
     }
 }
