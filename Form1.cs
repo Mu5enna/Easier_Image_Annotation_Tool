@@ -314,13 +314,17 @@ namespace stajcsharp
                 }
                 else if (e.Button == MouseButtons.Left && selectedRectangle.IsSelected)
                 {
-                    int width = e.X - startPoint.X;
-                    int height = e.Y - startPoint.Y;
-                    selectedRectangle.Rect = new Rectangle(startPoint.X, startPoint.Y, width, height);
+                    // Dikdörtgenin sol üst ve sað alt köþelerini dinamik olarak ayarla
+                    int x1 = Math.Min(startPoint.X, e.X);
+                    int y1 = Math.Min(startPoint.Y, e.Y);
+                    int x2 = Math.Max(startPoint.X, e.X);
+                    int y2 = Math.Max(startPoint.Y, e.Y);
+
+                    selectedRectangle.Rect = new Rectangle(x1, y1, x2 - x1, y2 - y1);
                 }
             }
 
-            (sender as PictureBox).Invalidate();
+    (sender as PictureBox).Invalidate();
         }
 
         private void pictureBox1_MouseUp(object sender, MouseEventArgs e)
@@ -457,6 +461,7 @@ namespace stajcsharp
                     selectionAttPairs[selectedRectangle.Id] = selectionClass;
                 }
             }
+            button6_Click(sender,e);
         }
 
         private void checkedListBox1_ItemCheck(object sender, ItemCheckEventArgs e)
@@ -510,6 +515,7 @@ namespace stajcsharp
             {
                 trackIds.Add(selectedRectangle.Id, (int)numericUpDown1.Value);
             }
+            button6_Click(sender, e);
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)
@@ -736,6 +742,7 @@ namespace stajcsharp
                 selectionAttPairs.Remove(selectedRectangle.Id);
                 trackIds.Remove(selectedRectangle.Id);
             }
+            button6_Click(sender, e);
         }
 
         private void checkedListBox1_MouseDown(object sender, MouseEventArgs e)
