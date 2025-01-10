@@ -280,6 +280,8 @@ namespace stajcsharp
                     selectedRectangle = clickedRectangle;
                     checkedListBox1.SetItemChecked(0, true);
                     numericUpDown1.Value = 0;
+                    selectionAttPairs.Add(newRectangle.Id, 0);
+                    trackIds.Add(newRectangle.Id, 0);
 
                     isDragging = false;
                     isResizing = false;
