@@ -30,7 +30,6 @@ namespace stajcsharp
         private Rectangle selectionRect = Rectangle.Empty;
         private bool isDragging = false, isResizing = false;
         private Point startPoint, currentMousePoint;
-        public static int rectId = 0;
         private int index = 0, rightClickIndex;
         private string path1, path2;
         SelectionRectangle? clickedRectangle;
@@ -104,7 +103,7 @@ namespace stajcsharp
                         }
                     }
 
-                    string attTxt = Path.Combine(newFolderPath,"attributes.txt");
+                    string attTxt = Path.Combine(newFolderPath, "attributes.txt");
                     if (!File.Exists(attTxt))
                     {
                         File.Create(attTxt).Dispose();
@@ -119,15 +118,15 @@ namespace stajcsharp
                             line = sr.ReadLine();
                             while (line != null)
                             {
-                                checkedListBox1.Items.Add(line.Split(" , ")[0]+" ("+ line.Split(" , ")[1]+")");
+                                checkedListBox1.Items.Add(line.Split(" , ")[0] + " (" + line.Split(" , ")[1] + ")");
                                 attClass.Add(Int32.Parse(line.Split(" , ")[1]), line.Split(" , ")[0]);
                                 line = sr.ReadLine();
                             }
                             sr.Dispose();
                         }
-                        catch (Exception ex) 
+                        catch (Exception ex)
                         {
-                            MessageBox.Show("Hata: "+ex);
+                            MessageBox.Show("Hata: " + ex);
                         }
                     }
 
@@ -142,7 +141,6 @@ namespace stajcsharp
                 rectangles.Clear();
                 selectionAttPairs.Clear();
                 trackIds.Clear();
-                rectId = 0;
 
 
                 string selectedFileName = listBox1.SelectedItem.ToString();
@@ -155,7 +153,7 @@ namespace stajcsharp
 
                 var jsonData = File.ReadAllText(path);
 
-                var jsonObject = JsonConvert.DeserializeObject<Dictionary<string,JsonData>>(jsonData);
+                var jsonObject = JsonConvert.DeserializeObject<Dictionary<string, JsonData>>(jsonData);
 
                 foreach (var entry in jsonObject)
                 {
@@ -177,7 +175,6 @@ namespace stajcsharp
                         Id = int.Parse(entryID),
                     };
                     rectangles.Add(newRectangle);
-                    rectId++;
                     trackIds[newRectangle.Id] = (int)entry.Value.TrackId;
                     selectionAttPairs[newRectangle.Id] = (int)entry.Value.Class;
                 }
@@ -208,24 +205,24 @@ namespace stajcsharp
                 if (!attClass.ContainsValue(returned))
                 {
                     attClass.Add(returned2, returned);
-                    checkedListBox1.Items.Add(returned+" ("+returned2+")");
+                    checkedListBox1.Items.Add(returned + " (" + returned2 + ")");
                 }
                 else
                 {
                     MessageBox.Show("Bu class deðeri zaten var");
                 }
-                
+
                 try
                 {
                     string attTxt = Path.Combine(newFolderPath, "attributes.txt");
-                    if(attTxt != null)
+                    if (attTxt != null)
                     {
                         File.AppendAllText(attTxt, $"\n{returned} , {returned2}");
                     }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
-                    MessageBox.Show("Hata: "+ex);
+                    MessageBox.Show("Hata: " + ex);
                 }
             }
         }
@@ -272,7 +269,7 @@ namespace stajcsharp
                     {
                         Rect = new Rectangle(e.Location, Size.Empty),
                         IsSelected = true,
-                        Id = rectId++
+                        Id = rectangles.Any() ? rectangles.Max(r => r.Id) + 1 : 0
                     };
 
                     rectangles.ForEach(r => r.IsSelected = false); // Tüm seçimleri deselect yap
@@ -334,7 +331,6 @@ namespace stajcsharp
                 {
                     rectangles.Remove(selectedRectangle);
                     selectedRectangle = null;
-                    rectId--;
                 }
             }
         }
@@ -481,7 +477,7 @@ namespace stajcsharp
         {
             if (selectionAttPairs.ContainsKey(selectedRectangle.Id))
             {
-                checkedListBox1.SetItemChecked(checkedListBox1.Items.IndexOf(attClass[selectionAttPairs[selectedRectangle.Id]]+" ("+ selectionAttPairs[selectedRectangle.Id]+")"), true);
+                checkedListBox1.SetItemChecked(checkedListBox1.Items.IndexOf(attClass[selectionAttPairs[selectedRectangle.Id]] + " (" + selectionAttPairs[selectedRectangle.Id] + ")"), true);
             }
             else
             {
@@ -505,7 +501,7 @@ namespace stajcsharp
         {
             if (trackIds.ContainsKey(selectedRectangle.Id))
             {
-                trackIds[selectedRectangle.Id]= (int)numericUpDown1.Value;
+                trackIds[selectedRectangle.Id] = (int)numericUpDown1.Value;
             }
             else
             {
@@ -727,6 +723,14 @@ namespace stajcsharp
             );
         }
 
-
+        private void button7_Click(object sender, EventArgs e)
+        {
+            if(selectedRectangle!=null)
+            {
+                rectangles.Remove(selectedRectangle);
+                selectionAttPairs.Remove(selectedRectangle.Id);
+                trackIds.Remove(selectedRectangle.Id);
+            }
+        }
     }
 }

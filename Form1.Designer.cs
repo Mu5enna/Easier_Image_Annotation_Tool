@@ -44,6 +44,7 @@
             label1 = new Label();
             button5 = new Button();
             button6 = new Button();
+            button7 = new Button();
             contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDown1).BeginInit();
@@ -199,11 +200,23 @@
             button6.UseVisualStyleBackColor = true;
             button6.Click += button6_Click;
             // 
+            // button7
+            // 
+            button7.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            button7.Location = new Point(416, 441);
+            button7.Name = "button7";
+            button7.Size = new Size(120, 23);
+            button7.TabIndex = 12;
+            button7.Text = "Delete";
+            button7.UseVisualStyleBackColor = true;
+            button7.Click += button7_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(923, 474);
+            Controls.Add(button7);
             Controls.Add(button6);
             Controls.Add(button5);
             Controls.Add(label1);
@@ -242,5 +255,6 @@
         private ToolStripMenuItem selectSecondFrameToolStripMenuItem;
         private ToolStripMenuItem fillInbetweenToolStripMenuItem;
         private Button button6;
+        private Button button7;
     }
 }
