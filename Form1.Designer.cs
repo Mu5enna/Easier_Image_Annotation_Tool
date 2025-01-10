@@ -45,9 +45,13 @@
             button5 = new Button();
             button6 = new Button();
             button7 = new Button();
+            contextMenuStrip2 = new ContextMenuStrip(components);
+            editClassToolStripMenuItem = new ToolStripMenuItem();
+            deleteClassToolStripMenuItem = new ToolStripMenuItem();
             contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDown1).BeginInit();
+            contextMenuStrip2.SuspendLayout();
             SuspendLayout();
             // 
             // listBox1
@@ -159,6 +163,7 @@
             checkedListBox1.ThreeDCheckBoxes = true;
             checkedListBox1.ItemCheck += checkedListBox1_ItemCheck;
             checkedListBox1.SelectedIndexChanged += checkedListBox1_SelectedIndexChanged;
+            checkedListBox1.MouseDown += checkedListBox1_MouseDown;
             // 
             // numericUpDown1
             // 
@@ -211,6 +216,24 @@
             button7.UseVisualStyleBackColor = true;
             button7.Click += button7_Click;
             // 
+            // contextMenuStrip2
+            // 
+            contextMenuStrip2.Items.AddRange(new ToolStripItem[] { editClassToolStripMenuItem, deleteClassToolStripMenuItem });
+            contextMenuStrip2.Name = "contextMenuStrip2";
+            contextMenuStrip2.Size = new Size(138, 48);
+            // 
+            // editClassToolStripMenuItem
+            // 
+            editClassToolStripMenuItem.Name = "editClassToolStripMenuItem";
+            editClassToolStripMenuItem.Size = new Size(137, 22);
+            editClassToolStripMenuItem.Text = "Edit Class";
+            // 
+            // deleteClassToolStripMenuItem
+            // 
+            deleteClassToolStripMenuItem.Name = "deleteClassToolStripMenuItem";
+            deleteClassToolStripMenuItem.Size = new Size(137, 22);
+            deleteClassToolStripMenuItem.Text = "Delete Class";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -234,6 +257,7 @@
             contextMenuStrip1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDown1).EndInit();
+            contextMenuStrip2.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -256,5 +280,8 @@
         private ToolStripMenuItem fillInbetweenToolStripMenuItem;
         private Button button6;
         private Button button7;
+        private ContextMenuStrip contextMenuStrip2;
+        private ToolStripMenuItem editClassToolStripMenuItem;
+        private ToolStripMenuItem deleteClassToolStripMenuItem;
     }
 }

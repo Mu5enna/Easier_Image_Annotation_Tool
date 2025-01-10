@@ -727,11 +727,26 @@ namespace stajcsharp
 
         private void button7_Click(object sender, EventArgs e)
         {
-            if(selectedRectangle!=null)
+            if (selectedRectangle != null)
             {
                 rectangles.Remove(selectedRectangle);
                 selectionAttPairs.Remove(selectedRectangle.Id);
                 trackIds.Remove(selectedRectangle.Id);
+            }
+        }
+
+        private void checkedListBox1_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                rightClickIndex = checkedListBox1.IndexFromPoint(e.Location);
+
+                if (rightClickIndex != CheckedListBox.NoMatches)
+                {
+                    checkedListBox1.SelectedIndex = rightClickIndex;
+
+                    contextMenuStrip2.Show(checkedListBox1, e.Location);
+                }
             }
         }
     }
