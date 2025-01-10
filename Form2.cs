@@ -30,10 +30,7 @@ namespace stajcsharp
 
         private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (e.KeyChar == (char)Keys.Return)
-            {
-                button2_Click(sender, e);
-            }
+
         }
 
         private void textBox2_KeyPress(object sender, KeyPressEventArgs e)

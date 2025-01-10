@@ -14,11 +14,15 @@ namespace stajcsharp
 {
     public partial class Form1 : Form
     {
-        readonly Queue<string> pendingMessages = new Queue<string>();
+        //resim isim ve yollarý
         private Dictionary<string, string> imagePaths = new Dictionary<string, string>();
+        //seçimlerin listesi
         private List<SelectionRectangle> rectangles = new List<SelectionRectangle>();
+        //seçilen kare idsi ile attributelarýnýn checkedlistboxdaki indexe göre baðlantýsý
         private Dictionary<int, int> selectionAttPairs = new Dictionary<int, int>();
-        private Dictionary<string, int> attClass = new Dictionary<string, int>();
+        //attribute isimlerinin classlarla baðlantýsý
+        private Dictionary<int, string> attClass = new Dictionary<int, string>();
+        //seçilen kare idsinin track id baðlantýsý
         private Dictionary<int, int> trackIds = new Dictionary<int, int>();
         private SelectionRectangle selectedRectangle = null;
         private string returned, resizeHandle = string.Empty, newFolderPath;
@@ -79,9 +83,7 @@ namespace stajcsharp
                     string[] imageFiles = Directory.GetFiles(selectedFolder, "*.*", SearchOption.TopDirectoryOnly)
                                                     .Where(file => file.EndsWith(".jpg", StringComparison.OrdinalIgnoreCase) ||
                                                                    file.EndsWith(".jpeg", StringComparison.OrdinalIgnoreCase) ||
-                                                                   file.EndsWith(".png", StringComparison.OrdinalIgnoreCase) ||
-                                                                   file.EndsWith(".bmp", StringComparison.OrdinalIgnoreCase) ||
-                                                                   file.EndsWith(".gif", StringComparison.OrdinalIgnoreCase))
+                                                                   file.EndsWith(".png", StringComparison.OrdinalIgnoreCase))
                                                     .ToArray();
 
 
@@ -117,8 +119,8 @@ namespace stajcsharp
                             line = sr.ReadLine();
                             while (line != null)
                             {
-                                checkedListBox1.Items.Add(line.Split(" , ")[0]);
-                                attClass.Add(line.Split(" , ")[0], Int32.Parse(line.Split(" , ")[1]));
+                                checkedListBox1.Items.Add(line.Split(" , ")[0]+" ("+ line.Split(" , ")[1]+")");
+                                attClass.Add(Int32.Parse(line.Split(" , ")[1]), line.Split(" , ")[0]);
                                 line = sr.ReadLine();
                             }
                             sr.Dispose();
@@ -142,16 +144,59 @@ namespace stajcsharp
                 trackIds.Clear();
                 rectId = 0;
 
+
                 string selectedFileName = listBox1.SelectedItem.ToString();
                 if (imagePaths.TryGetValue(selectedFileName, out string selectedImagePath))
                 {
                     pictureBox1.Image = Image.FromFile(selectedImagePath);
                 }
 
+                string path = Path.Combine(newFolderPath, Path.GetFileNameWithoutExtension(selectedImagePath) + ".json");
+
+                var jsonData = File.ReadAllText(path);
+
+                var jsonObject = JsonConvert.DeserializeObject<Dictionary<string,JsonData>>(jsonData);
+
+                foreach (var entry in jsonObject)
+                {
+                    string entryID = entry.Key;
+                    List<float> boxCoor = new List<float>() { entry.Value.Box[0], entry.Value.Box[1], entry.Value.Box[2], entry.Value.Box[3] };
+
+                    Rectangle rectInPictureBox = ImageCoordinatesToPictureBox(pictureBox1, new Rectangle(
+                        (int)boxCoor[0],
+                        (int)boxCoor[1],
+                        (int)(boxCoor[2] - boxCoor[0]),
+                        (int)(boxCoor[3] - boxCoor[1])
+                    ));
+
+                    // Dikdörtgeni rectangles listesine ekle
+                    var newRectangle = new SelectionRectangle
+                    {
+                        Rect = rectInPictureBox,
+                        IsSelected = false,
+                        Id = int.Parse(entryID),
+                    };
+                    rectangles.Add(newRectangle);
+                    rectId++;
+                    trackIds[newRectangle.Id] = (int)entry.Value.TrackId;
+                    selectionAttPairs[newRectangle.Id] = (int)entry.Value.Class;
+                }
+                numericUpDown1.Value = 0;
+                checkedListBox1.SetItemChecked(0, true);
+
                 //TODO
-                //jsondan çek
-                //resim koordinatýndan picturebox koordinatýna çevir
-                //liste ve dict leri geri doldur
+                //ters tarafa çekince kare oluþturma
+
+                //TODO
+                //kýsayollar ekle
+
+                //TODO
+                //dictionary default ekle
+
+
+                //TODO
+                //hiç kare seçilmediyse kontrol
+                pictureBox1.Invalidate();
             }
         }
 
@@ -160,8 +205,16 @@ namespace stajcsharp
             ShowForm2DialogBox();
             if (returned != "Cancelled")
             {
-                attClass.Add(returned, returned2);
-                checkedListBox1.Items.Add(returned);
+                if (!attClass.ContainsValue(returned))
+                {
+                    attClass.Add(returned2, returned);
+                    checkedListBox1.Items.Add(returned+" ("+returned2+")");
+                }
+                else
+                {
+                    MessageBox.Show("Bu class deðeri zaten var");
+                }
+                
                 try
                 {
                     string attTxt = Path.Combine(newFolderPath, "attributes.txt");
@@ -230,10 +283,6 @@ namespace stajcsharp
                     selectedRectangle = clickedRectangle;
                     checkedListBox1.SetItemChecked(0, true);
                     numericUpDown1.Value = 0;
-
-                    //TODO
-                    //düz týklama box oluþturmasýn
-
 
                     isDragging = false;
                     isResizing = false;
@@ -320,7 +369,7 @@ namespace stajcsharp
                 if (Rect.Width > 0 && Rect.Height > 0)
                 {
                     var font = new Font("Arial", 10, FontStyle.Bold);
-                    var textBrush = Brushes.Black;
+                    var textBrush = Brushes.LightBlue;
                     graphics.DrawString($"{Id}", font, textBrush, Rect.Location);
                 }
             }
@@ -405,14 +454,9 @@ namespace stajcsharp
                 }
                 else if (index != -1)
                 {
-                    selectionAttPairs.Remove(selectedRectangle.Id);
-                    selectionAttPairs.Add(selectedRectangle.Id, index);
+                    int selectionClass = Int32.Parse(checkedListBox1.Items[index].ToString().Replace(")", "").Split(" (")[1]);
+                    selectionAttPairs[selectedRectangle.Id] = selectionClass;
                 }
-            }
-
-            foreach (var attPair in selectionAttPairs)
-            {
-                MessageBox.Show((attPair.Key, attPair.Value).ToString());
             }
         }
 
@@ -437,7 +481,7 @@ namespace stajcsharp
         {
             if (selectionAttPairs.ContainsKey(selectedRectangle.Id))
             {
-                checkedListBox1.SetItemChecked(selectionAttPairs[selectedRectangle.Id], true);
+                checkedListBox1.SetItemChecked(checkedListBox1.Items.IndexOf(attClass[selectionAttPairs[selectedRectangle.Id]]+" ("+ selectionAttPairs[selectedRectangle.Id]+")"), true);
             }
             else
             {
@@ -459,7 +503,14 @@ namespace stajcsharp
 
         private void button5_Click(object sender, EventArgs e)
         {
-            trackIds.Add(selectedRectangle.Id, (int)numericUpDown1.Value);
+            if (trackIds.ContainsKey(selectedRectangle.Id))
+            {
+                trackIds[selectedRectangle.Id]= (int)numericUpDown1.Value;
+            }
+            else
+            {
+                trackIds.Add(selectedRectangle.Id, (int)numericUpDown1.Value);
+            }
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)
@@ -602,7 +653,7 @@ namespace stajcsharp
         {
             //TODO
             //picturebox koordinatýndan resim koordinatýna çevir - DONE
-            //jsona yaz
+            //jsona yaz - DONE
             //save için kýsayol iyi olur
 
             foreach (var rect in rectangles)
@@ -616,7 +667,7 @@ namespace stajcsharp
                 jsonObject[rect.Id.ToString()] = new JsonData
                 {
                     Box = new List<float> { imageCoordinates[0].X, imageCoordinates[0].Y, imageCoordinates[1].X, imageCoordinates[1].Y },
-                    Class = attClass[checkedListBox1.Items[selectionAttPairs[rect.Id]].ToString()],
+                    Class = selectionAttPairs[rect.Id],
                     TrackId = trackIds[rect.Id]
                 };
 
@@ -641,5 +692,41 @@ namespace stajcsharp
 
         //TODO
         //kare sil
+
+        private Rectangle ImageCoordinatesToPictureBox(PictureBox pictureBox, Rectangle imageRect)
+        {
+            if (pictureBox.Image == null) return Rectangle.Empty;
+
+            var image = pictureBox.Image;
+            var pbSize = pictureBox.ClientSize;
+
+            float imageAspect = (float)image.Width / image.Height;
+            float pbAspect = (float)pbSize.Width / pbSize.Height;
+
+            float scale;
+            int offsetX = 0, offsetY = 0;
+
+            if (pbAspect > imageAspect)
+            {
+                // PictureBox yatay olarak geniþ
+                scale = (float)pbSize.Height / image.Height;
+                offsetX = (int)((pbSize.Width - image.Width * scale) / 2);
+            }
+            else
+            {
+                // PictureBox dikey olarak uzun
+                scale = (float)pbSize.Width / image.Width;
+                offsetY = (int)((pbSize.Height - image.Height * scale) / 2);
+            }
+
+            return new Rectangle(
+                (int)(imageRect.X * scale + offsetX),
+                (int)(imageRect.Y * scale + offsetY),
+                (int)(imageRect.Width * scale),
+                (int)(imageRect.Height * scale)
+            );
+        }
+
+
     }
 }
