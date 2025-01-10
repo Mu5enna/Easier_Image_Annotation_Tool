@@ -37,6 +37,7 @@ namespace stajcsharp
         {
             InitializeComponent();
             checkedListBox1.SetItemChecked(0, true);
+            attClass.Add(0,"None");
         }
 
         public void ShowForm2DialogBox()
@@ -202,27 +203,27 @@ namespace stajcsharp
             ShowForm2DialogBox();
             if (returned != "Cancelled")
             {
-                if (!attClass.ContainsValue(returned))
+                if (!attClass.ContainsKey(returned2) && !attClass.ContainsValue(returned))
                 {
                     attClass.Add(returned2, returned);
                     checkedListBox1.Items.Add(returned + " (" + returned2 + ")");
+
+                    try
+                    {
+                        string attTxt = Path.Combine(newFolderPath, "attributes.txt");
+                        if (attTxt != null)
+                        {
+                            File.AppendAllText(attTxt, $"\n{returned} , {returned2}");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Hata: " + ex);
+                    }
                 }
                 else
                 {
                     MessageBox.Show("Bu class deðeri zaten var");
-                }
-
-                try
-                {
-                    string attTxt = Path.Combine(newFolderPath, "attributes.txt");
-                    if (attTxt != null)
-                    {
-                        File.AppendAllText(attTxt, $"\n{returned} , {returned2}");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Hata: " + ex);
                 }
             }
         }
@@ -693,9 +694,6 @@ namespace stajcsharp
             }
         }
 
-        //TODO
-        //kare sil
-
         private Rectangle ImageCoordinatesToPictureBox(PictureBox pictureBox, Rectangle imageRect)
         {
             if (pictureBox.Image == null) return Rectangle.Empty;
@@ -753,6 +751,49 @@ namespace stajcsharp
                     contextMenuStrip2.Show(checkedListBox1, e.Location);
                 }
             }
+        }
+
+        private void editClassToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            editForm();
+            if (returned != "Cancelled")
+            {
+                //attClass.
+            }
+        }
+
+        private void editForm()
+        {
+            Form2 testDialog = new Form2();
+            testDialog.textBox2.Text = checkedListBox1.Items[rightClickIndex].ToString().Replace(")", "").Split(" (")[1];
+            testDialog.textBox1.Text = checkedListBox1.Items[rightClickIndex].ToString().Split(" (")[0];
+            if (testDialog.ShowDialog(this) == DialogResult.OK)
+            {
+                returned = testDialog.textBox1.Text;
+                returned2 = Int32.Parse(testDialog.textBox2.Text);
+            }
+            else
+            {
+                returned = "Cancelled";
+            }
+            testDialog.Dispose();
+        }
+
+        private void deleteClassToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            attClass.Remove(Int32.Parse(checkedListBox1.Items[rightClickIndex].ToString().Replace(")", "").Split(" (")[1]));
+            string attTxt = Path.Combine(newFolderPath, "attributes.txt");
+
+            // Satýrlarý filtrele ve tamamen boþ olmayanlarý al
+            var filteredLines = File.ReadLines(attTxt)
+                .Where(line => !line.StartsWith(checkedListBox1.Items[rightClickIndex].ToString().Split(" (")[0]) && !string.IsNullOrWhiteSpace(line))
+                .ToArray();
+
+            // Filtrelenmiþ satýrlarý dosyaya yaz
+            File.WriteAllLines(attTxt, filteredLines);
+
+            // CheckedListBox'tan öðeyi kaldýr
+            checkedListBox1.Items.RemoveAt(rightClickIndex);
         }
     }
 }

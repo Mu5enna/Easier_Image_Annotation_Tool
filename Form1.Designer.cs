@@ -43,8 +43,8 @@
             numericUpDown1 = new NumericUpDown();
             label1 = new Label();
             button5 = new Button();
-            button6 = new Button();
-            button7 = new Button();
+            buttonSave = new Button();
+            buttonDelete = new Button();
             contextMenuStrip2 = new ContextMenuStrip(components);
             editClassToolStripMenuItem = new ToolStripMenuItem();
             deleteClassToolStripMenuItem = new ToolStripMenuItem();
@@ -155,7 +155,7 @@
             checkedListBox1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             checkedListBox1.CheckOnClick = true;
             checkedListBox1.FormattingEnabled = true;
-            checkedListBox1.Items.AddRange(new object[] { "None" });
+            checkedListBox1.Items.AddRange(new object[] { "None (0)" });
             checkedListBox1.Location = new Point(794, 41);
             checkedListBox1.Name = "checkedListBox1";
             checkedListBox1.Size = new Size(120, 346);
@@ -194,27 +194,27 @@
             button5.UseVisualStyleBackColor = true;
             button5.Click += button5_Click;
             // 
-            // button6
+            // buttonSave
             // 
-            button6.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            button6.Location = new Point(542, 441);
-            button6.Name = "button6";
-            button6.Size = new Size(120, 23);
-            button6.TabIndex = 11;
-            button6.Text = "Save";
-            button6.UseVisualStyleBackColor = true;
-            button6.Click += button6_Click;
+            buttonSave.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            buttonSave.Location = new Point(542, 441);
+            buttonSave.Name = "buttonSave";
+            buttonSave.Size = new Size(120, 23);
+            buttonSave.TabIndex = 11;
+            buttonSave.Text = "Save";
+            buttonSave.UseVisualStyleBackColor = true;
+            buttonSave.Click += button6_Click;
             // 
-            // button7
+            // buttonDelete
             // 
-            button7.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            button7.Location = new Point(416, 441);
-            button7.Name = "button7";
-            button7.Size = new Size(120, 23);
-            button7.TabIndex = 12;
-            button7.Text = "Delete";
-            button7.UseVisualStyleBackColor = true;
-            button7.Click += button7_Click;
+            buttonDelete.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            buttonDelete.Location = new Point(416, 441);
+            buttonDelete.Name = "buttonDelete";
+            buttonDelete.Size = new Size(120, 23);
+            buttonDelete.TabIndex = 12;
+            buttonDelete.Text = "Delete";
+            buttonDelete.UseVisualStyleBackColor = true;
+            buttonDelete.Click += button7_Click;
             // 
             // contextMenuStrip2
             // 
@@ -227,20 +227,22 @@
             editClassToolStripMenuItem.Name = "editClassToolStripMenuItem";
             editClassToolStripMenuItem.Size = new Size(137, 22);
             editClassToolStripMenuItem.Text = "Edit Class";
+            editClassToolStripMenuItem.Click += editClassToolStripMenuItem_Click;
             // 
             // deleteClassToolStripMenuItem
             // 
             deleteClassToolStripMenuItem.Name = "deleteClassToolStripMenuItem";
             deleteClassToolStripMenuItem.Size = new Size(137, 22);
             deleteClassToolStripMenuItem.Text = "Delete Class";
+            deleteClassToolStripMenuItem.Click += deleteClassToolStripMenuItem_Click;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(923, 474);
-            Controls.Add(button7);
-            Controls.Add(button6);
+            Controls.Add(buttonDelete);
+            Controls.Add(buttonSave);
             Controls.Add(button5);
             Controls.Add(label1);
             Controls.Add(numericUpDown1);
@@ -278,8 +280,8 @@
         private ToolStripMenuItem selectFirstFrameToolStripMenuItem;
         private ToolStripMenuItem selectSecondFrameToolStripMenuItem;
         private ToolStripMenuItem fillInbetweenToolStripMenuItem;
-        private Button button6;
-        private Button button7;
+        private Button buttonSave;
+        private Button buttonDelete;
         private ContextMenuStrip contextMenuStrip2;
         private ToolStripMenuItem editClassToolStripMenuItem;
         private ToolStripMenuItem deleteClassToolStripMenuItem;
