@@ -9,6 +9,7 @@ using System.IO;
 using Newtonsoft.Json;
 using Image_Annotation_Tool;
 using static Image_Annotation_Tool.Calculations;
+using System.Drawing;
 
 namespace stajcsharp
 {
@@ -24,6 +25,8 @@ namespace stajcsharp
         private Dictionary<int, string> attClass = new Dictionary<int, string>();
         //seçilen kare idsinin track id baðlantýsý
         private Dictionary<int, int> trackIds = new Dictionary<int, int>();
+        //renkler
+        private static List<Pen> pens = new List<Pen>() { Pens.Green, Pens.Yellow, Pens.Purple, Pens.Orange, Pens.Pink, Pens.Brown, Pens.Cyan, Pens.Magenta, Pens.Gray, Pens.Black, Pens.White, Pens.Beige };
         private SelectionRectangle selectedRectangle = null;
         private string returned, resizeHandle = string.Empty, newFolderPath;
         private int returned2;
@@ -176,19 +179,6 @@ namespace stajcsharp
                 }
                 numericUpDown1.Value = 0;
                 checkedListBox1.SetItemChecked(0, true);
-
-                //TODO
-                //ters tarafa çekince kare oluþturma
-
-                //TODO
-                //kýsayollar ekle
-
-                //TODO
-                //dictionary default ekle
-
-
-                //TODO
-                //hiç kare seçilmediyse kontrol
                 pictureBox1.Invalidate();
             }
         }
@@ -321,7 +311,7 @@ namespace stajcsharp
                 }
             }
 
-    (sender as PictureBox).Invalidate();
+            (sender as PictureBox).Invalidate();
         }
 
         private void pictureBox1_MouseUp(object sender, MouseEventArgs e)
@@ -334,6 +324,8 @@ namespace stajcsharp
                 if (selectedRectangle.Rect.Width < 5 && selectedRectangle.Rect.Height < 5)
                 {
                     rectangles.Remove(selectedRectangle);
+                    trackIds.Remove(selectedRectangle.Id);
+                    selectionAttPairs.Remove(selectedRectangle.Id);
                     selectedRectangle = null;
                 }
             }
@@ -343,9 +335,10 @@ namespace stajcsharp
         {
             foreach (var rect in rectangles)
             {
-                rect.Draw(e.Graphics);
+                rect.Draw(e.Graphics, trackIds, pens);
             }
         }
+
         public class SelectionRectangle
         {
             public Rectangle Rect { get; set; }
@@ -354,9 +347,16 @@ namespace stajcsharp
 
             private const int HandleSize = 12;
 
-            public void Draw(Graphics graphics)
+            public void Draw(Graphics graphics, Dictionary<int, int> trackIds, List<Pen> pens)
             {
-                graphics.DrawRectangle(IsSelected ? Pens.Red : Pens.GreenYellow, Rect);
+                // Track ID'ye göre pen seç
+                int trackId = trackIds.ContainsKey(Id) ? trackIds[Id] : -1; // Eðer ID yoksa varsayýlan deðer
+                Pen rectPen = trackId > 0 ? pens[trackId % pens.Count] : Pens.Gray;
+
+                using (var pen = new Pen(rectPen.Color, 3)) // Kalem rengini ve kalýnlýðýný ayarla
+                {
+                    graphics.DrawRectangle(pen, Rect);
+                }
 
                 if (IsSelected)
                 {
@@ -368,7 +368,7 @@ namespace stajcsharp
 
                 if (Rect.Width > 0 && Rect.Height > 0)
                 {
-                    var font = new Font("Arial", 10, FontStyle.Bold);
+                    var font = new Font("Arial", 14, FontStyle.Bold);
                     var textBrush = Brushes.LightBlue;
                     graphics.DrawString($"{Id}", font, textBrush, Rect.Location);
                 }
@@ -378,16 +378,19 @@ namespace stajcsharp
             {
                 if (!IsSelected) return Array.Empty<Rectangle>();
 
+                int adjustedHandleSize = (int)(HandleSize * 0.75); // Handle boyutunun %75'ini hesapla
+                int offset = (HandleSize - adjustedHandleSize) / 2; // Handle pozisyonunu ayarlamak için offset hesapla
+
                 return new Rectangle[]
                 {
-                new Rectangle(Rect.Left - HandleSize / 2, Rect.Top - HandleSize / 2, HandleSize, HandleSize), // Sol üst
-                new Rectangle(Rect.Right - HandleSize / 2, Rect.Top - HandleSize / 2, HandleSize, HandleSize), // Sað üst
-                new Rectangle(Rect.Left - HandleSize / 2, Rect.Bottom - HandleSize / 2, HandleSize, HandleSize), // Sol alt
-                new Rectangle(Rect.Right - HandleSize / 2, Rect.Bottom - HandleSize / 2, HandleSize, HandleSize), // Sað alt
-                new Rectangle(Rect.Left - HandleSize / 2, Rect.Top + Rect.Height / 2 - HandleSize / 2, HandleSize, HandleSize), // Sol
-                new Rectangle(Rect.Right - HandleSize / 2, Rect.Top + Rect.Height / 2 - HandleSize / 2, HandleSize, HandleSize), // Sað
-                new Rectangle(Rect.Left + Rect.Width / 2 - HandleSize / 2, Rect.Top - HandleSize / 2, HandleSize, HandleSize), // Üst
-                new Rectangle(Rect.Left + Rect.Width / 2 - HandleSize / 2, Rect.Bottom - HandleSize / 2, HandleSize, HandleSize), // Alt
+                    new Rectangle(Rect.Left + offset, Rect.Top + offset, adjustedHandleSize, adjustedHandleSize), // Sol üst
+                    new Rectangle(Rect.Right - adjustedHandleSize - offset, Rect.Top + offset, adjustedHandleSize, adjustedHandleSize), // Sað üst
+                    new Rectangle(Rect.Left + offset, Rect.Bottom - adjustedHandleSize - offset, adjustedHandleSize, adjustedHandleSize), // Sol alt
+                    new Rectangle(Rect.Right - adjustedHandleSize - offset, Rect.Bottom - adjustedHandleSize - offset, adjustedHandleSize, adjustedHandleSize), // Sað alt
+                    new Rectangle(Rect.Left + offset, Rect.Top + Rect.Height / 2 - adjustedHandleSize / 2, adjustedHandleSize, adjustedHandleSize), // Sol
+                    new Rectangle(Rect.Right - adjustedHandleSize - offset, Rect.Top + Rect.Height / 2 - adjustedHandleSize / 2, adjustedHandleSize, adjustedHandleSize), // Sað
+                    new Rectangle(Rect.Left + Rect.Width / 2 - adjustedHandleSize / 2, Rect.Top + offset, adjustedHandleSize, adjustedHandleSize), // Üst
+                    new Rectangle(Rect.Left + Rect.Width / 2 - adjustedHandleSize / 2, Rect.Bottom - adjustedHandleSize - offset, adjustedHandleSize, adjustedHandleSize), // Alt
                 };
             }
 
@@ -457,8 +460,8 @@ namespace stajcsharp
                     int selectionClass = Int32.Parse(checkedListBox1.Items[index].ToString().Replace(")", "").Split(" (")[1]);
                     selectionAttPairs[selectedRectangle.Id] = selectionClass;
                 }
+                button6_Click(sender, e);
             }
-            button6_Click(sender, e);
         }
 
         private void checkedListBox1_ItemCheck(object sender, ItemCheckEventArgs e)
@@ -504,20 +507,18 @@ namespace stajcsharp
 
         private void button5_Click(object sender, EventArgs e)
         {
-            if (trackIds.ContainsKey(selectedRectangle.Id))
+            if (selectedRectangle != null)
             {
-                trackIds[selectedRectangle.Id] = (int)numericUpDown1.Value;
+                if (trackIds.ContainsKey(selectedRectangle.Id))
+                {
+                    trackIds[selectedRectangle.Id] = (int)numericUpDown1.Value;
+                }
+                else
+                {
+                    trackIds.Add(selectedRectangle.Id, (int)numericUpDown1.Value);
+                }
+                button6_Click(sender, e);
             }
-            else
-            {
-                trackIds.Add(selectedRectangle.Id, (int)numericUpDown1.Value);
-            }
-            button6_Click(sender, e);
-        }
-
-        private void pictureBox1_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void listBox1_MouseDown(object sender, MouseEventArgs e)
@@ -640,8 +641,6 @@ namespace stajcsharp
             var corners = new List<Point>
                 {
                     ConvertToImageCoordinates(new Point(rect.Left, rect.Top)), // Sol üst
-                    //ConvertToImageCoordinates(new Point(rect.Right, rect.Top)), // Sað üst
-                    //ConvertToImageCoordinates(new Point(rect.Left, rect.Bottom)), // Sol alt
                     ConvertToImageCoordinates(new Point(rect.Right, rect.Bottom)) // Sað alt
                 };
 
@@ -651,11 +650,6 @@ namespace stajcsharp
 
         private void button6_Click(object sender, EventArgs e)
         {
-            //TODO
-            //picturebox koordinatýndan resim koordinatýna çevir - DONE
-            //jsona yaz - DONE
-            //save için kýsayol iyi olur
-
             imagePaths.TryGetValue(listBox1.SelectedItem.ToString(), out string selectedImagePath);
             string jsonPath = Path.Combine(newFolderPath, Path.GetFileNameWithoutExtension(selectedImagePath) + ".json");
             string jsonFile = File.ReadAllText(jsonPath);
@@ -730,6 +724,7 @@ namespace stajcsharp
                 rectangles.Remove(selectedRectangle);
                 selectionAttPairs.Remove(selectedRectangle.Id);
                 trackIds.Remove(selectedRectangle.Id);
+                pictureBox1.Invalidate();
             }
             button6_Click(sender, e);
         }
