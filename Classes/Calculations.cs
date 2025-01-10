@@ -9,6 +9,7 @@ namespace Image_Annotation_Tool
 {
     public class Calculations
     {
+        //Defination of Json Data Format
         public class JsonData
         {
             [JsonProperty("box")]
@@ -21,6 +22,7 @@ namespace Image_Annotation_Tool
             public float TrackId { get; set; }
         }
 
+        //Calculation of 2 Different Json Files' Box Value Differences
         public static List<float[]> CalcDiffs(string add1, string add2)
         {
             List<float[]> matchTIDiff = new List<float[]>();
@@ -41,7 +43,6 @@ namespace Image_Annotation_Tool
 
                     if (entry1.Value.TrackId == entry2.Value.TrackId)
                     {
-                        Console.WriteLine($"Track ID: {entry1.Value.TrackId}");
 
                         float[] diffArray = new float[5];
                         diffArray[4] = entry1.Value.TrackId;
@@ -52,12 +53,6 @@ namespace Image_Annotation_Tool
                             diffArray[i] = fark;
                         }
 
-                        for (int i = 0; i < diffArray.Length; i++)
-                        {
-                            Console.WriteLine($"Difference [{i + 1}]: {diffArray[i]}");
-                        }
-                        Console.WriteLine("-------------------------");
-
                         matchTIDiff.Add(diffArray);
                     }
                 }
@@ -66,6 +61,7 @@ namespace Image_Annotation_Tool
             return matchTIDiff;
         }
 
+        //Calculation of Incrementation Values
         public static List<float[]> calcPI(List<float[]> CoorDiffs, int imgDiffs)
         {
             List<float[]> listPI = new List<float[]>();
@@ -83,19 +79,10 @@ namespace Image_Annotation_Tool
                 listPI.Add(pointIncr);
             }
 
-            for (int i = 0; i < listPI.Count(); i++)
-            {
-                for (int j = 0; j < 4; j++)
-                {
-                    Console.WriteLine($"TrackID [{listPI[i][4]}], Box: {listPI[i][j]}");
-                    Console.WriteLine($"TrackID [{CoorDiffs[i][4]}], Box: {CoorDiffs[i][j]}");
-                    Console.WriteLine("-------------------------");
-                }
-            }
-
             return listPI;
         }
 
+        //Calculation of New Points
         public static void calcNewPoints(string prevAddr, string currAddr, List<float[]> calcPI)
         {
             var prevJson = File.ReadAllText(prevAddr);
