@@ -36,6 +36,7 @@ namespace stajcsharp
         private int index = 0, rightClickIndex;
         private string path1, path2;
         SelectionRectangle? clickedRectangle;
+        private bool isFirst = true;
         public Form1()
         {
             InitializeComponent();
@@ -60,6 +61,21 @@ namespace stajcsharp
 
         private void button1_Click(object sender, EventArgs e)
         {
+            if (isFirst==false)
+            {
+                pictureBox1.Image = null;
+                checkedListBox1.Items.Clear();
+                rectangles.Clear();
+                selectionAttPairs.Clear();
+                selectedRectangle = null;
+                imagePaths.Clear();
+                attClass.Clear();
+                trackIds.Clear();
+                clickedRectangle = null;
+                attClass.Add(0, "None");
+                checkedListBox1.Items.Add("None (0)");
+            }
+
             using (FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog())
             {
                 if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
@@ -117,6 +133,13 @@ namespace stajcsharp
                             line = sr.ReadLine();
                             while (line != null)
                             {
+                                if (String.IsNullOrWhiteSpace(line))
+                                {
+                                    line = sr.ReadLine();
+                                    continue;
+                                }
+                            
+                                
                                 checkedListBox1.Items.Add(line.Split(" , ")[0] + " (" + line.Split(" , ")[1] + ")");
                                 attClass.Add(Int32.Parse(line.Split(" , ")[1]), line.Split(" , ")[0]);
                                 line = sr.ReadLine();
@@ -128,7 +151,7 @@ namespace stajcsharp
                             MessageBox.Show("Hata: " + ex);
                         }
                     }
-
+                    isFirst = false;
                 }
             }
         }
@@ -519,6 +542,7 @@ namespace stajcsharp
                 }
                 button6_Click(sender, e);
             }
+            pictureBox1.Invalidate();
         }
 
         private void listBox1_MouseDown(object sender, MouseEventArgs e)
@@ -650,29 +674,32 @@ namespace stajcsharp
 
         private void button6_Click(object sender, EventArgs e)
         {
-            imagePaths.TryGetValue(listBox1.SelectedItem.ToString(), out string selectedImagePath);
-            string jsonPath = Path.Combine(newFolderPath, Path.GetFileNameWithoutExtension(selectedImagePath) + ".json");
-            string jsonFile = File.ReadAllText(jsonPath);
-            var jsonObject = JsonConvert.DeserializeObject<Dictionary<string, JsonData>>(jsonFile);
-            var updJsonObject = new Dictionary<string, JsonData>();
-
-            foreach (var rect in rectangles)
+            if (pictureBox1.Image != null)
             {
+                imagePaths.TryGetValue(listBox1.SelectedItem.ToString(), out string selectedImagePath);
+                string jsonPath = Path.Combine(newFolderPath, Path.GetFileNameWithoutExtension(selectedImagePath) + ".json");
+                string jsonFile = File.ReadAllText(jsonPath);
+                var jsonObject = JsonConvert.DeserializeObject<Dictionary<string, JsonData>>(jsonFile);
+                var updJsonObject = new Dictionary<string, JsonData>();
 
-                List<Point> imageCoordinates = GetRectangleCornersInImageCoordinates(rect.Rect);
-
-                updJsonObject[rect.Id.ToString()] = new JsonData
+                foreach (var rect in rectangles)
                 {
-                    Box = new List<float> { imageCoordinates[0].X, imageCoordinates[0].Y, imageCoordinates[1].X, imageCoordinates[1].Y },
-                    Class = selectionAttPairs[rect.Id],
-                    TrackId = trackIds[rect.Id]
-                };
 
+                    List<Point> imageCoordinates = GetRectangleCornersInImageCoordinates(rect.Rect);
+
+                    updJsonObject[rect.Id.ToString()] = new JsonData
+                    {
+                        Box = new List<float> { imageCoordinates[0].X, imageCoordinates[0].Y, imageCoordinates[1].X, imageCoordinates[1].Y },
+                        Class = selectionAttPairs[rect.Id],
+                        TrackId = trackIds[rect.Id]
+                    };
+
+                }
+
+                jsonObject = updJsonObject;
+                string updJson = JsonConvert.SerializeObject(jsonObject, Formatting.Indented);
+                File.WriteAllText(jsonPath, updJson);
             }
-
-            jsonObject = updJsonObject;
-            string updJson = JsonConvert.SerializeObject(jsonObject, Formatting.Indented);
-            File.WriteAllText(jsonPath, updJson);
         }
 
         private void button3_Click(object sender, EventArgs e)

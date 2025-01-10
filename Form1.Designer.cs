@@ -56,9 +56,9 @@
             listBox1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
             listBox1.FormattingEnabled = true;
             listBox1.ItemHeight = 15;
-            listBox1.Location = new Point(12, 41);
+            listBox1.Location = new Point(12, 56);
             listBox1.Name = "listBox1";
-            listBox1.Size = new Size(120, 394);
+            listBox1.Size = new Size(120, 379);
             listBox1.TabIndex = 0;
             listBox1.SelectedIndexChanged += listBox1_SelectedIndexChanged;
             listBox1.MouseDown += listBox1_MouseDown;
@@ -94,7 +94,7 @@
             // 
             button1.Location = new Point(12, 12);
             button1.Name = "button1";
-            button1.Size = new Size(120, 23);
+            button1.Size = new Size(120, 38);
             button1.TabIndex = 1;
             button1.Text = "Add Frame";
             button1.UseVisualStyleBackColor = true;
@@ -105,7 +105,7 @@
             button2.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             button2.Location = new Point(794, 12);
             button2.Name = "button2";
-            button2.Size = new Size(120, 23);
+            button2.Size = new Size(120, 38);
             button2.TabIndex = 2;
             button2.Text = "Add Class";
             button2.UseVisualStyleBackColor = true;
@@ -131,7 +131,7 @@
             checkedListBox1.CheckOnClick = true;
             checkedListBox1.FormattingEnabled = true;
             checkedListBox1.Items.AddRange(new object[] { "None (0)" });
-            checkedListBox1.Location = new Point(794, 41);
+            checkedListBox1.Location = new Point(794, 56);
             checkedListBox1.Name = "checkedListBox1";
             checkedListBox1.Size = new Size(120, 328);
             checkedListBox1.TabIndex = 7;
@@ -173,9 +173,9 @@
             // buttonSave
             // 
             buttonSave.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            buttonSave.Location = new Point(791, 441);
+            buttonSave.Location = new Point(791, 438);
             buttonSave.Name = "buttonSave";
-            buttonSave.Size = new Size(120, 23);
+            buttonSave.Size = new Size(120, 39);
             buttonSave.TabIndex = 11;
             buttonSave.Text = "Save";
             buttonSave.UseVisualStyleBackColor = true;
@@ -184,9 +184,9 @@
             // buttonDelete
             // 
             buttonDelete.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            buttonDelete.Location = new Point(665, 441);
+            buttonDelete.Location = new Point(665, 438);
             buttonDelete.Name = "buttonDelete";
-            buttonDelete.Size = new Size(120, 23);
+            buttonDelete.Size = new Size(120, 39);
             buttonDelete.TabIndex = 12;
             buttonDelete.Text = "Delete";
             buttonDelete.UseVisualStyleBackColor = true;
@@ -209,7 +209,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(923, 474);
+            ClientSize = new Size(923, 480);
             Controls.Add(buttonDelete);
             Controls.Add(buttonSave);
             Controls.Add(button5);
