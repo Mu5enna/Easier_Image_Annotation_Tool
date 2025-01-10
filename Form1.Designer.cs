@@ -37,8 +37,6 @@
             button1 = new Button();
             button2 = new Button();
             pictureBox1 = new PictureBox();
-            button3 = new Button();
-            button4 = new Button();
             checkedListBox1 = new CheckedListBox();
             numericUpDown1 = new NumericUpDown();
             label1 = new Label();
@@ -46,7 +44,6 @@
             buttonSave = new Button();
             buttonDelete = new Button();
             contextMenuStrip2 = new ContextMenuStrip(components);
-            editClassToolStripMenuItem = new ToolStripMenuItem();
             deleteClassToolStripMenuItem = new ToolStripMenuItem();
             contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
@@ -110,7 +107,7 @@
             button2.Name = "button2";
             button2.Size = new Size(120, 23);
             button2.TabIndex = 2;
-            button2.Text = "Add Attribute";
+            button2.Text = "Add Class";
             button2.UseVisualStyleBackColor = true;
             button2.Click += button2_Click;
             // 
@@ -129,27 +126,6 @@
             pictureBox1.MouseMove += pictureBox1_MouseMove;
             pictureBox1.MouseUp += pictureBox1_MouseUp;
             // 
-            // button3
-            // 
-            button3.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            button3.Location = new Point(668, 441);
-            button3.Name = "button3";
-            button3.Size = new Size(120, 23);
-            button3.TabIndex = 5;
-            button3.Text = "Import";
-            button3.UseVisualStyleBackColor = true;
-            button3.Click += button3_Click;
-            // 
-            // button4
-            // 
-            button4.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            button4.Location = new Point(794, 441);
-            button4.Name = "button4";
-            button4.Size = new Size(120, 23);
-            button4.TabIndex = 6;
-            button4.Text = "Export";
-            button4.UseVisualStyleBackColor = true;
-            // 
             // checkedListBox1
             // 
             checkedListBox1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
@@ -158,7 +134,7 @@
             checkedListBox1.Items.AddRange(new object[] { "None (0)" });
             checkedListBox1.Location = new Point(794, 41);
             checkedListBox1.Name = "checkedListBox1";
-            checkedListBox1.Size = new Size(120, 346);
+            checkedListBox1.Size = new Size(120, 328);
             checkedListBox1.TabIndex = 7;
             checkedListBox1.ThreeDCheckBoxes = true;
             checkedListBox1.ItemCheck += checkedListBox1_ItemCheck;
@@ -168,16 +144,17 @@
             // numericUpDown1
             // 
             numericUpDown1.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            numericUpDown1.Location = new Point(794, 412);
+            numericUpDown1.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 162);
+            numericUpDown1.Location = new Point(794, 402);
             numericUpDown1.Name = "numericUpDown1";
-            numericUpDown1.Size = new Size(64, 23);
+            numericUpDown1.Size = new Size(64, 33);
             numericUpDown1.TabIndex = 8;
             // 
             // label1
             // 
             label1.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             label1.AutoSize = true;
-            label1.Location = new Point(794, 394);
+            label1.Location = new Point(794, 384);
             label1.Name = "label1";
             label1.Size = new Size(64, 15);
             label1.TabIndex = 9;
@@ -186,9 +163,9 @@
             // button5
             // 
             button5.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            button5.Location = new Point(864, 412);
+            button5.Location = new Point(864, 402);
             button5.Name = "button5";
-            button5.Size = new Size(50, 23);
+            button5.Size = new Size(50, 33);
             button5.TabIndex = 10;
             button5.Text = "Add";
             button5.UseVisualStyleBackColor = true;
@@ -197,7 +174,7 @@
             // buttonSave
             // 
             buttonSave.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            buttonSave.Location = new Point(542, 441);
+            buttonSave.Location = new Point(791, 441);
             buttonSave.Name = "buttonSave";
             buttonSave.Size = new Size(120, 23);
             buttonSave.TabIndex = 11;
@@ -208,7 +185,7 @@
             // buttonDelete
             // 
             buttonDelete.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            buttonDelete.Location = new Point(416, 441);
+            buttonDelete.Location = new Point(665, 441);
             buttonDelete.Name = "buttonDelete";
             buttonDelete.Size = new Size(120, 23);
             buttonDelete.TabIndex = 12;
@@ -218,16 +195,9 @@
             // 
             // contextMenuStrip2
             // 
-            contextMenuStrip2.Items.AddRange(new ToolStripItem[] { editClassToolStripMenuItem, deleteClassToolStripMenuItem });
+            contextMenuStrip2.Items.AddRange(new ToolStripItem[] { deleteClassToolStripMenuItem });
             contextMenuStrip2.Name = "contextMenuStrip2";
-            contextMenuStrip2.Size = new Size(138, 48);
-            // 
-            // editClassToolStripMenuItem
-            // 
-            editClassToolStripMenuItem.Name = "editClassToolStripMenuItem";
-            editClassToolStripMenuItem.Size = new Size(137, 22);
-            editClassToolStripMenuItem.Text = "Edit Class";
-            editClassToolStripMenuItem.Click += editClassToolStripMenuItem_Click;
+            contextMenuStrip2.Size = new Size(138, 26);
             // 
             // deleteClassToolStripMenuItem
             // 
@@ -247,8 +217,6 @@
             Controls.Add(label1);
             Controls.Add(numericUpDown1);
             Controls.Add(checkedListBox1);
-            Controls.Add(button4);
-            Controls.Add(button3);
             Controls.Add(pictureBox1);
             Controls.Add(button2);
             Controls.Add(button1);
@@ -270,8 +238,6 @@
         private Button button1;
         private Button button2;
         private PictureBox pictureBox1;
-        private Button button3;
-        private Button button4;
         private CheckedListBox checkedListBox1;
         private NumericUpDown numericUpDown1;
         private Label label1;
@@ -283,7 +249,6 @@
         private Button buttonSave;
         private Button buttonDelete;
         private ContextMenuStrip contextMenuStrip2;
-        private ToolStripMenuItem editClassToolStripMenuItem;
         private ToolStripMenuItem deleteClassToolStripMenuItem;
     }
 }

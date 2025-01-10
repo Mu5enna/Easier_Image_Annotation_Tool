@@ -37,7 +37,7 @@ namespace stajcsharp
         {
             InitializeComponent();
             checkedListBox1.SetItemChecked(0, true);
-            attClass.Add(0,"None");
+            attClass.Add(0, "None");
         }
 
         public void ShowForm2DialogBox()
@@ -70,11 +70,6 @@ namespace stajcsharp
                     if (!Directory.Exists(newFolderPath))
                     {
                         Directory.CreateDirectory(newFolderPath);
-                        MessageBox.Show($"Yeni klasör oluþturuldu: {newFolderPath}", "Bilgi");
-                    }
-                    else
-                    {
-                        MessageBox.Show($"Klasör zaten mevcut: {newFolderPath}", "Bilgi");
                     }
 
                     listBox1.Items.Clear();
@@ -231,6 +226,7 @@ namespace stajcsharp
         private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
         {
             if (pictureBox1.Image != null)
+            {
                 if (e.Button == MouseButtons.Right)
                 {
                     // Týklanan dikdörtgeni bul
@@ -247,49 +243,50 @@ namespace stajcsharp
                     }
                 }
 
-            if (e.Button == MouseButtons.Left)
-            {
-                if (clickedRectangle != null && rectangles.FirstOrDefault(r => r.Rect.Contains(e.Location)) == clickedRectangle)
+                if (e.Button == MouseButtons.Left)
                 {
-                    // Mevcut seçimde bir tutma noktasý týklandý mý kontrol et
-                    resizeHandle = clickedRectangle.GetResizeHandle(e.Location);
-
-                    if (!string.IsNullOrEmpty(resizeHandle))
+                    if (clickedRectangle != null && rectangles.FirstOrDefault(r => r.Rect.Contains(e.Location)) == clickedRectangle)
                     {
-                        isResizing = true;
+                        // Mevcut seçimde bir tutma noktasý týklandý mý kontrol et
+                        resizeHandle = clickedRectangle.GetResizeHandle(e.Location);
+
+                        if (!string.IsNullOrEmpty(resizeHandle))
+                        {
+                            isResizing = true;
+                        }
+                        else
+                        {
+                            isDragging = true;
+                        }
                     }
                     else
                     {
-                        isDragging = true;
+                        // Yeni bir dikdörtgen ekle
+                        var newRectangle = new SelectionRectangle
+                        {
+                            Rect = new Rectangle(e.Location, Size.Empty),
+                            IsSelected = true,
+                            Id = rectangles.Any() ? rectangles.Max(r => r.Id) + 1 : 0
+                        };
+
+                        rectangles.ForEach(r => r.IsSelected = false); // Tüm seçimleri deselect yap
+                        rectangles.Add(newRectangle);
+                        rectangles = rectangles.OrderBy(r => r.Rect.Width * r.Rect.Height).ToList();
+                        clickedRectangle = newRectangle;
+                        clickedRectangle.IsSelected = true;
+                        selectedRectangle = clickedRectangle;
+                        checkedListBox1.SetItemChecked(0, true);
+                        numericUpDown1.Value = 0;
+                        selectionAttPairs.Add(newRectangle.Id, 0);
+                        trackIds.Add(newRectangle.Id, 0);
+
+                        isDragging = false;
+                        isResizing = false;
                     }
+
+                    startPoint = e.Location;
+                    (sender as PictureBox).Invalidate();
                 }
-                else
-                {
-                    // Yeni bir dikdörtgen ekle
-                    var newRectangle = new SelectionRectangle
-                    {
-                        Rect = new Rectangle(e.Location, Size.Empty),
-                        IsSelected = true,
-                        Id = rectangles.Any() ? rectangles.Max(r => r.Id) + 1 : 0
-                    };
-
-                    rectangles.ForEach(r => r.IsSelected = false); // Tüm seçimleri deselect yap
-                    rectangles.Add(newRectangle);
-                    rectangles = rectangles.OrderBy(r => r.Rect.Width * r.Rect.Height).ToList();
-                    clickedRectangle = newRectangle;
-                    clickedRectangle.IsSelected = true;
-                    selectedRectangle = clickedRectangle;
-                    checkedListBox1.SetItemChecked(0, true);
-                    numericUpDown1.Value = 0;
-                    selectionAttPairs.Add(newRectangle.Id, 0);
-                    trackIds.Add(newRectangle.Id, 0);
-
-                    isDragging = false;
-                    isResizing = false;
-                }
-
-                startPoint = e.Location;
-                (sender as PictureBox).Invalidate();
             }
         }
 
@@ -461,7 +458,7 @@ namespace stajcsharp
                     selectionAttPairs[selectedRectangle.Id] = selectionClass;
                 }
             }
-            button6_Click(sender,e);
+            button6_Click(sender, e);
         }
 
         private void checkedListBox1_ItemCheck(object sender, ItemCheckEventArgs e)
@@ -546,7 +543,6 @@ namespace stajcsharp
             string originalFilePath = imagePaths[selectedItem];
 
             path1 = originalFilePath;
-            MessageBox.Show(path1);
         }
 
         private void selectSecondFrameToolStripMenuItem_Click(object sender, EventArgs e)
@@ -557,7 +553,6 @@ namespace stajcsharp
             string originalFilePath = imagePaths[selectedItem];
 
             path2 = originalFilePath;
-            MessageBox.Show(path2);
         }
 
         private void fillInbetweenToolStripMenuItem_Click(object sender, EventArgs e)
@@ -691,12 +686,6 @@ namespace stajcsharp
             if (selectedRectangle != null)
             {
                 List<Point> imageCoordinates = GetRectangleCornersInImageCoordinates(selectedRectangle.Rect);
-                MessageBox.Show(selectedRectangle.Rect.X.ToString() + selectedRectangle.Rect.Y.ToString() + (selectedRectangle.Rect.Width + selectedRectangle.Rect.X).ToString() + (selectedRectangle.Rect.Height + selectedRectangle.Rect.Y).ToString());
-
-                foreach (var point in imageCoordinates)
-                {
-                    MessageBox.Show($"Image Coordinates: X={point.X}, Y={point.Y}");
-                }
             }
         }
 
@@ -758,32 +747,6 @@ namespace stajcsharp
                     contextMenuStrip2.Show(checkedListBox1, e.Location);
                 }
             }
-        }
-
-        private void editClassToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            editForm();
-            if (returned != "Cancelled")
-            {
-                //attClass.
-            }
-        }
-
-        private void editForm()
-        {
-            Form2 testDialog = new Form2();
-            testDialog.textBox2.Text = checkedListBox1.Items[rightClickIndex].ToString().Replace(")", "").Split(" (")[1];
-            testDialog.textBox1.Text = checkedListBox1.Items[rightClickIndex].ToString().Split(" (")[0];
-            if (testDialog.ShowDialog(this) == DialogResult.OK)
-            {
-                returned = testDialog.textBox1.Text;
-                returned2 = Int32.Parse(testDialog.textBox2.Text);
-            }
-            else
-            {
-                returned = "Cancelled";
-            }
-            testDialog.Dispose();
         }
 
         private void deleteClassToolStripMenuItem_Click(object sender, EventArgs e)
