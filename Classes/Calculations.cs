@@ -110,5 +110,35 @@ namespace Image_Annotation_Tool
             string updJson = JsonConvert.SerializeObject(currJsonObject, Formatting.Indented);
             File.WriteAllText(currAddr, updJson);
         }
+
+        public static void calcSepBox(string prevAddr, string currAddr, List<float[]> calcPI, int selectedBoxTrack)
+        {
+
+            var prevJson = File.ReadAllText(prevAddr);
+            var currJson = File.ReadAllText(currAddr);
+
+            var prevJsonObject = JsonConvert.DeserializeObject<Dictionary<string, JsonData>>(prevJson);
+            var currJsonObject = JsonConvert.DeserializeObject<Dictionary<string, JsonData>>(currJson);
+
+            for (int i = 0; i < calcPI.Count; i++)
+            {
+                foreach (var entryPrev in prevJsonObject)
+                {
+                    if (entryPrev.Value.TrackId == calcPI[i][4] && selectedBoxTrack == entryPrev.Value.TrackId)
+                    {
+                        currJsonObject[entryPrev.Key] = new JsonData
+                        {
+                            Box = new List<float> { entryPrev.Value.Box[0] + calcPI[i][0], entryPrev.Value.Box[1] + calcPI[i][1], entryPrev.Value.Box[2] + calcPI[i][2], entryPrev.Value.Box[3] + calcPI[i][3] },
+                            Class = entryPrev.Value.Class,
+                            TrackId = entryPrev.Value.TrackId
+                        };
+                    }
+                }
+            }
+
+            string updJson = JsonConvert.SerializeObject(currJsonObject, Formatting.Indented);
+            File.WriteAllText(currAddr, updJson);
+
+        }
     }
 }

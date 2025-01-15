@@ -33,7 +33,7 @@ namespace stajcsharp
         private Rectangle selectionRect = Rectangle.Empty;
         private bool isDragging = false, isResizing = false;
         private Point startPoint, currentMousePoint;
-        private int index = 0, rightClickIndex;
+        private int index = 0, rightClickIndex, selectedBoxTrack;
         private string path1, path2;
         SelectionRectangle? clickedRectangle;
         private bool isFirst = true;
@@ -61,7 +61,7 @@ namespace stajcsharp
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (isFirst==false)
+            if (isFirst == false)
             {
                 pictureBox1.Image = null;
                 checkedListBox1.Items.Clear();
@@ -138,8 +138,8 @@ namespace stajcsharp
                                     line = sr.ReadLine();
                                     continue;
                                 }
-                            
-                                
+
+
                                 checkedListBox1.Items.Add(line.Split(" , ")[0] + " (" + line.Split(" , ")[1] + ")");
                                 attClass.Add(Int32.Parse(line.Split(" , ")[1]), line.Split(" , ")[0]);
                                 line = sr.ReadLine();
@@ -352,6 +352,8 @@ namespace stajcsharp
                     selectedRectangle = null;
                 }
             }
+
+            button6_Click(sender, e);
         }
 
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
@@ -786,6 +788,85 @@ namespace stajcsharp
 
             // CheckedListBox'tan öðeyi kaldýr
             checkedListBox1.Items.RemoveAt(rightClickIndex);
+        }
+
+        private void btSepTrack_Click(object sender, EventArgs e)
+        {
+
+            string prevAdd = "", currAdd, endAdd = "", begAdd = "";
+            bool ifFound = false;
+            int diff = 0;
+
+            foreach (var img in imagePaths)
+            {
+                if (ifFound)
+                {
+                    diff++;
+                }
+                if (img.Value == path1)
+                {
+                    begAdd = img.Value;
+                    ifFound = true;
+                }
+                else if (img.Value == path2)
+                {
+                    endAdd = img.Value;
+                    ifFound = false;
+                    break;
+                }
+            }
+
+            ifFound = false;
+            string begFilePath = Path.Combine(newFolderPath, Path.GetFileNameWithoutExtension(begAdd) + ".json");
+            string endFilePath = Path.Combine(newFolderPath, Path.GetFileNameWithoutExtension(endAdd) + ".json");
+
+            selectedBoxTrack = Int32.Parse(tbTracker.Text);
+
+            foreach (var img in imagePaths)
+            {
+                currAdd = img.Value;
+                if (ifFound)
+                {
+                    string prevFilePath = Path.Combine(newFolderPath, Path.GetFileNameWithoutExtension(prevAdd) + ".json");
+                    string currFilePath = Path.Combine(newFolderPath, Path.GetFileNameWithoutExtension(currAdd) + ".json");
+                    Calculations.calcSepBox(prevFilePath, currFilePath, Calculations.calcPI(Calculations.CalcDiffs(begFilePath, endFilePath), diff), selectedBoxTrack);
+                    prevAdd = currAdd;
+                }
+                if (img.Value == path1)
+                {
+                    prevAdd = img.Value;
+                    ifFound = true;
+                }
+                else if (img.Value == path2)
+                {
+                    ifFound = false;
+                    break;
+                }
+            }
+
+        }
+
+        private void tbTracker_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void Form1_KeyDown(object sender, KeyEventArgs e)
+        {
+
+            if(e.Control && e.KeyCode == Keys.S) { button6_Click(sender, e); }
+
+            else if (e.KeyCode == Keys.Delete) { button7_Click(sender, e); }
+
+            else if(e.KeyCode == Keys.Up) { listBox1.SelectedIndex = listBox1.SelectedIndex - 1; }
+
+            else if(e.KeyCode == Keys.Down) { listBox1.SelectedIndex = listBox1.SelectedIndex + 1; }
+
+            else if(e.KeyCode == Keys.C) { button2_Click(sender, e); }
+
         }
     }
 }
