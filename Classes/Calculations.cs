@@ -9,6 +9,13 @@ namespace Image_Annotation_Tool
 {
     public class Calculations
     {
+        public class Item
+        {
+            public string Text { get; set; }
+            public int ID { get; set; }
+            public override string ToString() => Text;
+        }
+
         //Defination of Json Data Format
         public class JsonData
         {

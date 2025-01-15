@@ -48,6 +48,7 @@
             tbTracker = new TextBox();
             label2 = new Label();
             btSepTrack = new Button();
+            comboBox1 = new ComboBox();
             contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDown1).BeginInit();
@@ -111,7 +112,7 @@
             button2.Location = new Point(907, 16);
             button2.Margin = new Padding(3, 4, 3, 4);
             button2.Name = "button2";
-            button2.Size = new Size(137, 51);
+            button2.Size = new Size(137, 39);
             button2.TabIndex = 2;
             button2.Text = "Add Class";
             button2.UseVisualStyleBackColor = true;
@@ -138,10 +139,10 @@
             checkedListBox1.CheckOnClick = true;
             checkedListBox1.FormattingEnabled = true;
             checkedListBox1.Items.AddRange(new object[] { "None (0)" });
-            checkedListBox1.Location = new Point(907, 75);
+            checkedListBox1.Location = new Point(907, 97);
             checkedListBox1.Margin = new Padding(3, 4, 3, 4);
             checkedListBox1.Name = "checkedListBox1";
-            checkedListBox1.Size = new Size(137, 422);
+            checkedListBox1.Size = new Size(137, 400);
             checkedListBox1.TabIndex = 7;
             checkedListBox1.ThreeDCheckBoxes = true;
             checkedListBox1.ItemCheck += checkedListBox1_ItemCheck;
@@ -248,11 +249,23 @@
             btSepTrack.UseVisualStyleBackColor = true;
             btSepTrack.Click += btSepTrack_Click;
             // 
+            // comboBox1
+            // 
+            comboBox1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            comboBox1.FormattingEnabled = true;
+            comboBox1.Location = new Point(907, 62);
+            comboBox1.Name = "comboBox1";
+            comboBox1.Size = new Size(137, 28);
+            comboBox1.Sorted = true;
+            comboBox1.TabIndex = 16;
+            comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1055, 640);
+            Controls.Add(comboBox1);
             Controls.Add(btSepTrack);
             Controls.Add(label2);
             Controls.Add(tbTracker);
@@ -271,6 +284,7 @@
             Name = "Form1";
             Text = "Form1";
             WindowState = FormWindowState.Maximized;
+            Load += Form1_Load;
             KeyDown += Form1_KeyDown;
             contextMenuStrip1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
@@ -301,5 +315,6 @@
         private TextBox tbTracker;
         private Label label2;
         private Button btSepTrack;
+        private ComboBox comboBox1;
     }
 }

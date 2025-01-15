@@ -208,31 +208,20 @@ namespace stajcsharp
 
         private void button2_Click(object sender, EventArgs e)
         {
-            ShowForm2DialogBox();
-            if (returned != "Cancelled")
-            {
-                if (!attClass.ContainsKey(returned2) && !attClass.ContainsValue(returned))
-                {
-                    attClass.Add(returned2, returned);
-                    checkedListBox1.Items.Add(returned + " (" + returned2 + ")");
+            attClass.Add(returned2, returned);
+            checkedListBox1.Items.Add(returned + " (" + returned2 + ")");
 
-                    try
-                    {
-                        string attTxt = Path.Combine(newFolderPath, "attributes.txt");
-                        if (attTxt != null)
-                        {
-                            File.AppendAllText(attTxt, $"\n{returned} , {returned2}");
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Hata: " + ex);
-                    }
-                }
-                else
+            try
+            {
+                string attTxt = Path.Combine(newFolderPath, "attributes.txt");
+                if (attTxt != null)
                 {
-                    MessageBox.Show("Bu class deðeri zaten var");
+                    File.AppendAllText(attTxt, $"\n{returned} , {returned2}");
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Hata: " + ex);
             }
         }
 
@@ -857,15 +846,70 @@ namespace stajcsharp
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
 
-            if(e.Control && e.KeyCode == Keys.S) { button6_Click(sender, e); }
+            if (e.Control && e.KeyCode == Keys.S) { button6_Click(sender, e); }
 
             else if (e.KeyCode == Keys.Delete) { button7_Click(sender, e); }
 
-            else if(e.KeyCode == Keys.Up) { listBox1.SelectedIndex = listBox1.SelectedIndex - 1; }
+            else if (e.KeyCode == Keys.Up) 
+            { 
+                if(listBox1.SelectedIndex !=0) { listBox1.SelectedIndex = listBox1.SelectedIndex - 1; }                 
+            }
 
-            else if(e.KeyCode == Keys.Down) { listBox1.SelectedIndex = listBox1.SelectedIndex + 1; }
+            else if (e.KeyCode == Keys.Down) 
+            { 
+                if(listBox1.SelectedIndex != listBox1.Items.Count - 1) { listBox1.SelectedIndex = listBox1.SelectedIndex + 1; }
+            }
 
-            else if(e.KeyCode == Keys.C) { button2_Click(sender, e); }
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            var data = new List<Item> { };
+            string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ids.txt");
+            if (!File.Exists(filePath))
+            {
+                MessageBox.Show("'ids.txt' Couldn't Found! Check the File Path and Restart");
+            }
+            else
+            {
+                try
+                {
+                    StreamReader sr = new StreamReader(filePath);
+                    string line = sr.ReadLine();
+                    line = sr.ReadLine();
+
+                    while (line != null)
+                    {
+                        if (String.IsNullOrWhiteSpace(line))
+                        {
+                            line = sr.ReadLine();
+                            continue;
+                        }
+
+                        data.Add(new Item { Text = line.Split(" , ")[0], ID = Int32.Parse(line.Split(" , ")[1]) });
+                        line = sr.ReadLine();
+                    }
+                    sr.Dispose();
+
+                    comboBox1.DisplayMember = "Text";
+                    comboBox1.ValueMember = "ID";
+                    comboBox1.DataSource = data;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Hata: " + ex);
+                }
+            }
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+            if(comboBox1.SelectedItem is Item selectedItem)
+            {
+                returned2 = selectedItem.ID;
+                returned = selectedItem.Text;
+            }
 
         }
     }
