@@ -65,6 +65,7 @@
             listBox1.Size = new Size(137, 504);
             listBox1.TabIndex = 0;
             listBox1.SelectedIndexChanged += listBox1_SelectedIndexChanged;
+            listBox1.KeyDown += listBox1_KeyDown;
             listBox1.MouseDown += listBox1_MouseDown;
             // 
             // contextMenuStrip1
@@ -252,6 +253,8 @@
             // comboBox1
             // 
             comboBox1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            comboBox1.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            comboBox1.AutoCompleteSource = AutoCompleteSource.ListItems;
             comboBox1.FormattingEnabled = true;
             comboBox1.Location = new Point(907, 62);
             comboBox1.Name = "comboBox1";

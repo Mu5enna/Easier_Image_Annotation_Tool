@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using Image_Annotation_Tool;
 using static Image_Annotation_Tool.Calculations;
 using System.Drawing;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace stajcsharp
 {
@@ -44,42 +45,27 @@ namespace stajcsharp
             attClass.Add(0, "None");
         }
 
-        public void ShowForm2DialogBox()
-        {
-            Form2 testDialog = new Form2();
-            if (testDialog.ShowDialog(this) == DialogResult.OK)
-            {
-                returned = testDialog.textBox1.Text;
-                returned2 = Int32.Parse(testDialog.textBox2.Text);
-            }
-            else
-            {
-                returned = "Cancelled";
-            }
-            testDialog.Dispose();
-        }
-
         private void button1_Click(object sender, EventArgs e)
         {
-            if (isFirst == false)
-            {
-                pictureBox1.Image = null;
-                checkedListBox1.Items.Clear();
-                rectangles.Clear();
-                selectionAttPairs.Clear();
-                selectedRectangle = null;
-                imagePaths.Clear();
-                attClass.Clear();
-                trackIds.Clear();
-                clickedRectangle = null;
-                attClass.Add(0, "None");
-                checkedListBox1.Items.Add("None (0)");
-            }
-
             using (FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog())
             {
                 if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
                 {
+                    if (isFirst == false)
+                    {
+                        pictureBox1.Image = null;
+                        checkedListBox1.Items.Clear();
+                        rectangles.Clear();
+                        selectionAttPairs.Clear();
+                        selectedRectangle = null;
+                        imagePaths.Clear();
+                        attClass.Clear();
+                        trackIds.Clear();
+                        clickedRectangle = null;
+                        attClass.Add(0, "None");
+                        checkedListBox1.Items.Add("None (0)");
+                    }
+
                     string selectedFolder = folderBrowserDialog.SelectedPath;
 
                     string folderName = Path.GetFileName(selectedFolder);
@@ -154,6 +140,7 @@ namespace stajcsharp
                     isFirst = false;
                 }
             }
+            button6_Click(sender, e);
         }
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -208,20 +195,28 @@ namespace stajcsharp
 
         private void button2_Click(object sender, EventArgs e)
         {
-            attClass.Add(returned2, returned);
-            checkedListBox1.Items.Add(returned + " (" + returned2 + ")");
-
-            try
+            if (pictureBox1.Image != null)
             {
-                string attTxt = Path.Combine(newFolderPath, "attributes.txt");
-                if (attTxt != null)
+                if (attClass.ContainsKey(returned2) == true && returned2 != null)
                 {
-                    File.AppendAllText(attTxt, $"\n{returned} , {returned2}");
+                    MessageBox.Show("Choose a Valid Class From the List Below");
+                    return;
                 }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Hata: " + ex);
+                attClass.Add(returned2, returned);
+                checkedListBox1.Items.Add(returned + " (" + returned2 + ")");
+
+                try
+                {
+                    string attTxt = Path.Combine(newFolderPath, "attributes.txt");
+                    if (attTxt != null)
+                    {
+                        File.AppendAllText(attTxt, $"\n{returned} , {returned2}");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Hata: " + ex);
+                }
             }
         }
 
@@ -359,7 +354,7 @@ namespace stajcsharp
             public bool IsSelected { get; set; }
             public int Id { get; set; }
 
-            private const int HandleSize = 12;
+            private const int HandleSize = 10;
 
             public void Draw(Graphics graphics, Dictionary<int, int> trackIds, List<Pen> pens)
             {
@@ -809,7 +804,8 @@ namespace stajcsharp
             string begFilePath = Path.Combine(newFolderPath, Path.GetFileNameWithoutExtension(begAdd) + ".json");
             string endFilePath = Path.Combine(newFolderPath, Path.GetFileNameWithoutExtension(endAdd) + ".json");
 
-            selectedBoxTrack = Int32.Parse(tbTracker.Text);
+            if (!String.IsNullOrWhiteSpace(tbTracker.Text)) { selectedBoxTrack = Int32.Parse(tbTracker.Text); }
+            else { MessageBox.Show("Please Enter a Track ID!"); return; }
 
             foreach (var img in imagePaths)
             {
@@ -850,14 +846,14 @@ namespace stajcsharp
 
             else if (e.KeyCode == Keys.Delete) { button7_Click(sender, e); }
 
-            else if (e.KeyCode == Keys.Up) 
-            { 
-                if(listBox1.SelectedIndex !=0) { listBox1.SelectedIndex = listBox1.SelectedIndex - 1; }                 
+            else if (e.KeyCode == Keys.Up)
+            {
+                if (listBox1.SelectedIndex != 0) { listBox1.SelectedIndex = listBox1.SelectedIndex - 1; }
             }
 
-            else if (e.KeyCode == Keys.Down) 
-            { 
-                if(listBox1.SelectedIndex != listBox1.Items.Count - 1) { listBox1.SelectedIndex = listBox1.SelectedIndex + 1; }
+            else if (e.KeyCode == Keys.Down)
+            {
+                if (listBox1.SelectedIndex != listBox1.Items.Count - 1) { listBox1.SelectedIndex = listBox1.SelectedIndex + 1; }
             }
 
         }
@@ -865,6 +861,7 @@ namespace stajcsharp
         private void Form1_Load(object sender, EventArgs e)
         {
             var data = new List<Item> { };
+
             string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ids.txt");
             if (!File.Exists(filePath))
             {
@@ -900,17 +897,26 @@ namespace stajcsharp
                     MessageBox.Show("Hata: " + ex);
                 }
             }
+            comboBox1.SelectedIndex = -1;
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
 
-            if(comboBox1.SelectedItem is Item selectedItem)
+            if (comboBox1.SelectedItem is Item selectedItem)
             {
                 returned2 = selectedItem.ID;
                 returned = selectedItem.Text;
             }
 
+        }
+
+        private void listBox1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Up || e.KeyCode == Keys.Down)
+            {
+                e.Handled = true;
+            }
         }
     }
 }

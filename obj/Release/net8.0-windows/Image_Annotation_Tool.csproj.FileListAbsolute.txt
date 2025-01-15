@@ -6,7 +6,6 @@ C:\Users\Eren\Desktop\Image_Annotation_Tool\Image_Annotation_Tool\bin\Release\ne
 C:\Users\Eren\Desktop\Image_Annotation_Tool\Image_Annotation_Tool\bin\Release\net8.0-windows\Newtonsoft.Json.dll
 C:\Users\Eren\Desktop\Image_Annotation_Tool\Image_Annotation_Tool\obj\Release\net8.0-windows\Image_Annotation_Tool.csproj.AssemblyReference.cache
 C:\Users\Eren\Desktop\Image_Annotation_Tool\Image_Annotation_Tool\obj\Release\net8.0-windows\stajcsharp.Form1.resources
-C:\Users\Eren\Desktop\Image_Annotation_Tool\Image_Annotation_Tool\obj\Release\net8.0-windows\stajcsharp.Form2.resources
 C:\Users\Eren\Desktop\Image_Annotation_Tool\Image_Annotation_Tool\obj\Release\net8.0-windows\Image_Annotation_Tool.csproj.GenerateResource.cache
 C:\Users\Eren\Desktop\Image_Annotation_Tool\Image_Annotation_Tool\obj\Release\net8.0-windows\Image_Annotation_Tool.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\Eren\Desktop\Image_Annotation_Tool\Image_Annotation_Tool\obj\Release\net8.0-windows\Image_Annotation_Tool.AssemblyInfoInputs.cache

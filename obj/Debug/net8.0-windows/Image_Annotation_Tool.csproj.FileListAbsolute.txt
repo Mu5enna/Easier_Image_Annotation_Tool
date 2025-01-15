@@ -1,0 +1,39 @@
+C:\Users\Eren\Desktop\Yeni klasör\bin\Debug\net8.0-windows\Image_Annotation_Tool.exe
+C:\Users\Eren\Desktop\Yeni klasör\bin\Debug\net8.0-windows\Image_Annotation_Tool.deps.json
+C:\Users\Eren\Desktop\Yeni klasör\bin\Debug\net8.0-windows\Image_Annotation_Tool.runtimeconfig.json
+C:\Users\Eren\Desktop\Yeni klasör\bin\Debug\net8.0-windows\Image_Annotation_Tool.dll
+C:\Users\Eren\Desktop\Yeni klasör\bin\Debug\net8.0-windows\Image_Annotation_Tool.pdb
+C:\Users\Eren\Desktop\Yeni klasör\bin\Debug\net8.0-windows\Newtonsoft.Json.dll
+C:\Users\Eren\Desktop\Yeni klasör\obj\Debug\net8.0-windows\Image_Annotation_Tool.csproj.AssemblyReference.cache
+C:\Users\Eren\Desktop\Yeni klasör\obj\Debug\net8.0-windows\stajcsharp.Form1.resources
+C:\Users\Eren\Desktop\Yeni klasör\obj\Debug\net8.0-windows\Image_Annotation_Tool.csproj.GenerateResource.cache
+C:\Users\Eren\Desktop\Yeni klasör\obj\Debug\net8.0-windows\Image_Annotation_Tool.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Eren\Desktop\Yeni klasör\obj\Debug\net8.0-windows\Image_Annotation_Tool.AssemblyInfoInputs.cache
+C:\Users\Eren\Desktop\Yeni klasör\obj\Debug\net8.0-windows\Image_Annotation_Tool.AssemblyInfo.cs
+C:\Users\Eren\Desktop\Yeni klasör\obj\Debug\net8.0-windows\Image_Annotation_Tool.csproj.CoreCompileInputs.cache
+C:\Users\Eren\Desktop\Yeni klasör\obj\Debug\net8.0-windows\Image_An.77EE6FA9.Up2Date
+C:\Users\Eren\Desktop\Yeni klasör\obj\Debug\net8.0-windows\Image_Annotation_Tool.dll
+C:\Users\Eren\Desktop\Yeni klasör\obj\Debug\net8.0-windows\refint\Image_Annotation_Tool.dll
+C:\Users\Eren\Desktop\Yeni klasör\obj\Debug\net8.0-windows\Image_Annotation_Tool.pdb
+C:\Users\Eren\Desktop\Yeni klasör\obj\Debug\net8.0-windows\Image_Annotation_Tool.genruntimeconfig.cache
+C:\Users\Eren\Desktop\Yeni klasör\obj\Debug\net8.0-windows\ref\Image_Annotation_Tool.dll
+C:\Users\Eren\Desktop\Image_Annotation_Tool\Image_Annotation_Tool\bin\Debug\net8.0-windows\Image_Annotation_Tool.exe
+C:\Users\Eren\Desktop\Image_Annotation_Tool\Image_Annotation_Tool\bin\Debug\net8.0-windows\Image_Annotation_Tool.deps.json
+C:\Users\Eren\Desktop\Image_Annotation_Tool\Image_Annotation_Tool\bin\Debug\net8.0-windows\Image_Annotation_Tool.runtimeconfig.json
+C:\Users\Eren\Desktop\Image_Annotation_Tool\Image_Annotation_Tool\bin\Debug\net8.0-windows\Image_Annotation_Tool.dll
+C:\Users\Eren\Desktop\Image_Annotation_Tool\Image_Annotation_Tool\bin\Debug\net8.0-windows\Image_Annotation_Tool.pdb
+C:\Users\Eren\Desktop\Image_Annotation_Tool\Image_Annotation_Tool\bin\Debug\net8.0-windows\Newtonsoft.Json.dll
+C:\Users\Eren\Desktop\Image_Annotation_Tool\Image_Annotation_Tool\obj\Debug\net8.0-windows\Image_Annotation_Tool.csproj.AssemblyReference.cache
+C:\Users\Eren\Desktop\Image_Annotation_Tool\Image_Annotation_Tool\obj\Debug\net8.0-windows\stajcsharp.Form1.resources
+C:\Users\Eren\Desktop\Image_Annotation_Tool\Image_Annotation_Tool\obj\Debug\net8.0-windows\Image_Annotation_Tool.csproj.GenerateResource.cache
+C:\Users\Eren\Desktop\Image_Annotation_Tool\Image_Annotation_Tool\obj\Debug\net8.0-windows\Image_Annotation_Tool.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Eren\Desktop\Image_Annotation_Tool\Image_Annotation_Tool\obj\Debug\net8.0-windows\Image_Annotation_Tool.AssemblyInfoInputs.cache
+C:\Users\Eren\Desktop\Image_Annotation_Tool\Image_Annotation_Tool\obj\Debug\net8.0-windows\Image_Annotation_Tool.AssemblyInfo.cs
+C:\Users\Eren\Desktop\Image_Annotation_Tool\Image_Annotation_Tool\obj\Debug\net8.0-windows\Image_Annotation_Tool.csproj.CoreCompileInputs.cache
+C:\Users\Eren\Desktop\Image_Annotation_Tool\Image_Annotation_Tool\obj\Debug\net8.0-windows\Image_Annotation_Tool.sourcelink.json
+C:\Users\Eren\Desktop\Image_Annotation_Tool\Image_Annotation_Tool\obj\Debug\net8.0-windows\Image_An.77EE6FA9.Up2Date
+C:\Users\Eren\Desktop\Image_Annotation_Tool\Image_Annotation_Tool\obj\Debug\net8.0-windows\Image_Annotation_Tool.dll
+C:\Users\Eren\Desktop\Image_Annotation_Tool\Image_Annotation_Tool\obj\Debug\net8.0-windows\refint\Image_Annotation_Tool.dll
+C:\Users\Eren\Desktop\Image_Annotation_Tool\Image_Annotation_Tool\obj\Debug\net8.0-windows\Image_Annotation_Tool.pdb
+C:\Users\Eren\Desktop\Image_Annotation_Tool\Image_Annotation_Tool\obj\Debug\net8.0-windows\Image_Annotation_Tool.genruntimeconfig.cache
+C:\Users\Eren\Desktop\Image_Annotation_Tool\Image_Annotation_Tool\obj\Debug\net8.0-windows\ref\Image_Annotation_Tool.dll
