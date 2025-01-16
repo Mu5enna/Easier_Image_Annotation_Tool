@@ -169,11 +169,11 @@ namespace stajcsharp
                     string entryID = entry.Key;
                     List<float> boxCoor = new List<float>() { entry.Value.Box[0], entry.Value.Box[1], entry.Value.Box[2], entry.Value.Box[3] };
 
-                    Rectangle rectInPictureBox = ImageCoordinatesToPictureBox(pictureBox1, new Rectangle(
-                        (int)boxCoor[0],
-                        (int)boxCoor[1],
-                        (int)(boxCoor[2] - boxCoor[0]),
-                        (int)(boxCoor[3] - boxCoor[1])
+                    RectangleF rectInPictureBox = ImageCoordinatesToPictureBox(pictureBox1, new RectangleF(
+                        boxCoor[0],
+                        boxCoor[1],
+                        (boxCoor[2] - boxCoor[0]),
+                        (boxCoor[3] - boxCoor[1])
                     ));
 
                     // Dikdörtgeni rectangles listesine ekle
@@ -296,7 +296,7 @@ namespace stajcsharp
                 {
                     int offsetX = e.X - startPoint.X;
                     int offsetY = e.Y - startPoint.Y;
-                    selectedRectangle.Rect = new Rectangle(
+                    selectedRectangle.Rect = new RectangleF(
                         selectedRectangle.Rect.X + offsetX,
                         selectedRectangle.Rect.Y + offsetY,
                         selectedRectangle.Rect.Width,
@@ -351,7 +351,7 @@ namespace stajcsharp
 
         public class SelectionRectangle
         {
-            public Rectangle Rect { get; set; }
+            public RectangleF Rect { get; set; }
             public bool IsSelected { get; set; }
             public int Id { get; set; }
 
@@ -384,23 +384,23 @@ namespace stajcsharp
                 }
             }
 
-            public Rectangle[] GetResizeHandles()
+            public RectangleF[] GetResizeHandles()
             {
-                if (!IsSelected) return Array.Empty<Rectangle>();
+                if (!IsSelected) return Array.Empty<RectangleF>();
 
                 int adjustedHandleSize = (int)(HandleSize * 0.75); // Handle boyutunun %75'ini hesapla
                 int offset = (HandleSize - adjustedHandleSize) / 2; // Handle pozisyonunu ayarlamak için offset hesapla
 
-                return new Rectangle[]
+                return new RectangleF[]
                 {
-                    new Rectangle(Rect.Left + offset, Rect.Top + offset, adjustedHandleSize, adjustedHandleSize), // Sol üst
-                    new Rectangle(Rect.Right - adjustedHandleSize - offset, Rect.Top + offset, adjustedHandleSize, adjustedHandleSize), // Sað üst
-                    new Rectangle(Rect.Left + offset, Rect.Bottom - adjustedHandleSize - offset, adjustedHandleSize, adjustedHandleSize), // Sol alt
-                    new Rectangle(Rect.Right - adjustedHandleSize - offset, Rect.Bottom - adjustedHandleSize - offset, adjustedHandleSize, adjustedHandleSize), // Sað alt
-                    new Rectangle(Rect.Left + offset, Rect.Top + Rect.Height / 2 - adjustedHandleSize / 2, adjustedHandleSize, adjustedHandleSize), // Sol
-                    new Rectangle(Rect.Right - adjustedHandleSize - offset, Rect.Top + Rect.Height / 2 - adjustedHandleSize / 2, adjustedHandleSize, adjustedHandleSize), // Sað
-                    new Rectangle(Rect.Left + Rect.Width / 2 - adjustedHandleSize / 2, Rect.Top + offset, adjustedHandleSize, adjustedHandleSize), // Üst
-                    new Rectangle(Rect.Left + Rect.Width / 2 - adjustedHandleSize / 2, Rect.Bottom - adjustedHandleSize - offset, adjustedHandleSize, adjustedHandleSize), // Alt
+                    new RectangleF(Rect.Left + offset, Rect.Top + offset, adjustedHandleSize, adjustedHandleSize), // Sol üst
+                    new RectangleF(Rect.Right - adjustedHandleSize - offset, Rect.Top + offset, adjustedHandleSize, adjustedHandleSize), // Sað üst
+                    new RectangleF(Rect.Left + offset, Rect.Bottom - adjustedHandleSize - offset, adjustedHandleSize, adjustedHandleSize), // Sol alt
+                    new RectangleF(Rect.Right - adjustedHandleSize - offset, Rect.Bottom - adjustedHandleSize - offset, adjustedHandleSize, adjustedHandleSize), // Sað alt
+                    new RectangleF(Rect.Left + offset, Rect.Top + Rect.Height / 2 - adjustedHandleSize / 2, adjustedHandleSize, adjustedHandleSize), // Sol
+                    new RectangleF(Rect.Right - adjustedHandleSize - offset, Rect.Top + Rect.Height / 2 - adjustedHandleSize / 2, adjustedHandleSize, adjustedHandleSize), // Sað
+                    new RectangleF(Rect.Left + Rect.Width / 2 - adjustedHandleSize / 2, Rect.Top + offset, adjustedHandleSize, adjustedHandleSize), // Üst
+                    new RectangleF(Rect.Left + Rect.Width / 2 - adjustedHandleSize / 2, Rect.Bottom - adjustedHandleSize - offset, adjustedHandleSize, adjustedHandleSize), // Alt
                 };
             }
 
@@ -422,35 +422,35 @@ namespace stajcsharp
                 return string.Empty;
             }
 
-            public void ResizeRectangle(string handle, Point mousePoint)
+            public void ResizeRectangle(string handle, PointF mousePoint)
             {
                 if (!IsSelected) return;
 
                 switch (handle)
                 {
                     case "TopLeft":
-                        Rect = new Rectangle(mousePoint.X, mousePoint.Y, Rect.Right - mousePoint.X, Rect.Bottom - mousePoint.Y);
+                        Rect = new RectangleF(mousePoint.X, mousePoint.Y, Rect.Right - mousePoint.X, Rect.Bottom - mousePoint.Y);
                         break;
                     case "TopRight":
-                        Rect = new Rectangle(Rect.Left, mousePoint.Y, mousePoint.X - Rect.Left, Rect.Bottom - mousePoint.Y);
+                        Rect = new RectangleF(Rect.Left, mousePoint.Y, mousePoint.X - Rect.Left, Rect.Bottom - mousePoint.Y);
                         break;
                     case "BottomLeft":
-                        Rect = new Rectangle(mousePoint.X, Rect.Top, Rect.Right - mousePoint.X, mousePoint.Y - Rect.Top);
+                        Rect = new RectangleF(mousePoint.X, Rect.Top, Rect.Right - mousePoint.X, mousePoint.Y - Rect.Top);
                         break;
                     case "BottomRight":
-                        Rect = new Rectangle(Rect.Left, Rect.Top, mousePoint.X - Rect.Left, mousePoint.Y - Rect.Top);
+                        Rect = new RectangleF(Rect.Left, Rect.Top, mousePoint.X - Rect.Left, mousePoint.Y - Rect.Top);
                         break;
                     case "Left":
-                        Rect = new Rectangle(mousePoint.X, Rect.Top, Rect.Right - mousePoint.X, Rect.Height);
+                        Rect = new RectangleF(mousePoint.X, Rect.Top, Rect.Right - mousePoint.X, Rect.Height);
                         break;
                     case "Right":
-                        Rect = new Rectangle(Rect.Left, Rect.Top, mousePoint.X - Rect.Left, Rect.Height);
+                        Rect = new RectangleF(Rect.Left, Rect.Top, mousePoint.X - Rect.Left, Rect.Height);
                         break;
                     case "Top":
-                        Rect = new Rectangle(Rect.Left, mousePoint.Y, Rect.Width, Rect.Bottom - mousePoint.Y);
+                        Rect = new RectangleF(Rect.Left, mousePoint.Y, Rect.Width, Rect.Bottom - mousePoint.Y);
                         break;
                     case "Bottom":
-                        Rect = new Rectangle(Rect.Left, Rect.Top, Rect.Width, mousePoint.Y - Rect.Top);
+                        Rect = new RectangleF(Rect.Left, Rect.Top, Rect.Width, mousePoint.Y - Rect.Top);
                         break;
                 }
             }
@@ -619,7 +619,7 @@ namespace stajcsharp
             }
         }
 
-        private Point ConvertToImageCoordinates(Point pictureBoxPoint)
+        private PointF ConvertToImageCoordinates(PointF pictureBoxPoint)
         {
             if (pictureBox1.Image == null)
                 return Point.Empty;
@@ -629,30 +629,30 @@ namespace stajcsharp
             var imageSize = pictureBox1.Image.Size;
 
             // Ölçek oranýný hesapla
-            double ratioWidth = (double)pictureBoxSize.Width / imageSize.Width;
-            double ratioHeight = (double)pictureBoxSize.Height / imageSize.Height;
-            double scaleRatio = Math.Min(ratioWidth, ratioHeight);
+            float ratioWidth = (float)pictureBoxSize.Width / imageSize.Width;
+            float ratioHeight = (float)pictureBoxSize.Height / imageSize.Height;
+            float scaleRatio = Math.Min(ratioWidth, ratioHeight);
 
             // Görüntünün görüntülendiði alaný hesapla
-            int displayedImageWidth = (int)(imageSize.Width * scaleRatio);
-            int displayedImageHeight = (int)(imageSize.Height * scaleRatio);
+            float displayedImageWidth = (imageSize.Width * scaleRatio);
+            float displayedImageHeight = (imageSize.Height * scaleRatio);
 
-            int offsetX = (pictureBoxSize.Width - displayedImageWidth) / 2;
-            int offsetY = (pictureBoxSize.Height - displayedImageHeight) / 2;
+            float offsetX = (pictureBoxSize.Width - displayedImageWidth) / 2;
+            float offsetY = (pictureBoxSize.Height - displayedImageHeight) / 2;
 
             // PictureBox noktasýný resim koordinatlarýna dönüþtür
-            int imageX = (int)((pictureBoxPoint.X - offsetX) / scaleRatio);
-            int imageY = (int)((pictureBoxPoint.Y - offsetY) / scaleRatio);
+            float imageX = ((pictureBoxPoint.X - offsetX) / scaleRatio);
+            float imageY = ((pictureBoxPoint.Y - offsetY) / scaleRatio);
 
-            return new Point(imageX, imageY);
+            return new PointF(imageX, imageY);
         }
 
-        private List<Point> GetRectangleCornersInImageCoordinates(Rectangle rect)
+        private List<PointF> GetRectangleCornersInImageCoordinates(RectangleF rect)
         {
-            var corners = new List<Point>
+            var corners = new List<PointF>
                 {
-                    ConvertToImageCoordinates(new Point(rect.Left, rect.Top)), // Sol üst
-                    ConvertToImageCoordinates(new Point(rect.Right, rect.Bottom)) // Sað alt
+                    ConvertToImageCoordinates(new PointF(rect.Left, rect.Top)), // Sol üst
+                    ConvertToImageCoordinates(new PointF(rect.Right, rect.Bottom)) // Sað alt
                 };
 
             return corners;
@@ -672,7 +672,7 @@ namespace stajcsharp
                 foreach (var rect in rectangles)
                 {
 
-                    List<Point> imageCoordinates = GetRectangleCornersInImageCoordinates(rect.Rect);
+                    List<PointF> imageCoordinates = GetRectangleCornersInImageCoordinates(rect.Rect);
 
                     updJsonObject[rect.Id.ToString()] = new JsonData
                     {
@@ -693,11 +693,11 @@ namespace stajcsharp
         {
             if (selectedRectangle != null)
             {
-                List<Point> imageCoordinates = GetRectangleCornersInImageCoordinates(selectedRectangle.Rect);
+                List<PointF> imageCoordinates = GetRectangleCornersInImageCoordinates(selectedRectangle.Rect);
             }
         }
 
-        private Rectangle ImageCoordinatesToPictureBox(PictureBox pictureBox, Rectangle imageRect)
+        private RectangleF ImageCoordinatesToPictureBox(PictureBox pictureBox, RectangleF imageRect)
         {
             if (pictureBox.Image == null) return Rectangle.Empty;
 
@@ -708,26 +708,26 @@ namespace stajcsharp
             float pbAspect = (float)pbSize.Width / pbSize.Height;
 
             float scale;
-            int offsetX = 0, offsetY = 0;
+            float offsetX = 0, offsetY = 0;
 
             if (pbAspect > imageAspect)
             {
                 // PictureBox yatay olarak geniþ
                 scale = (float)pbSize.Height / image.Height;
-                offsetX = (int)((pbSize.Width - image.Width * scale) / 2);
+                offsetX = (float)((pbSize.Width - image.Width * scale) / 2);
             }
             else
             {
                 // PictureBox dikey olarak uzun
                 scale = (float)pbSize.Width / image.Width;
-                offsetY = (int)((pbSize.Height - image.Height * scale) / 2);
+                offsetY = (float)((pbSize.Height - image.Height * scale) / 2);
             }
 
-            return new Rectangle(
-                (int)(imageRect.X * scale + offsetX),
-                (int)(imageRect.Y * scale + offsetY),
-                (int)(imageRect.Width * scale),
-                (int)(imageRect.Height * scale)
+            return new RectangleF(
+                (imageRect.X * scale + offsetX),
+                (imageRect.Y * scale + offsetY),
+                (imageRect.Width * scale),
+                (imageRect.Height * scale)
             );
         }
 
