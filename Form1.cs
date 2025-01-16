@@ -212,6 +212,7 @@ namespace stajcsharp
                     {
                         File.AppendAllText(attTxt, $"\n{returned} , {returned2}");
                     }
+                    comboBox1.SelectedIndex = -1;
                 }
                 catch (Exception ex)
                 {
@@ -462,7 +463,7 @@ namespace stajcsharp
             {
                 if (index == 0)
                 {
-                    selectionAttPairs.Remove(selectedRectangle.Id);
+                    selectionAttPairs[selectedRectangle.Id] = 0;
                 }
                 else if (index != -1)
                 {
@@ -598,6 +599,11 @@ namespace stajcsharp
             foreach (var img in imagePaths)
             {
                 currAdd = img.Value;
+                if(img.Value == path2)
+                {
+                    ifFound = false;
+                    break;
+                }
                 if (ifFound)
                 {
                     string prevFilePath = Path.Combine(newFolderPath, Path.GetFileNameWithoutExtension(prevAdd) + ".json");
@@ -605,15 +611,10 @@ namespace stajcsharp
                     Calculations.calcNewPoints(prevFilePath, currFilePath, Calculations.calcPI(Calculations.CalcDiffs(begFilePath, endFilePath), diff));
                     prevAdd = currAdd;
                 }
-                if (img.Value == path1)
+                else if (img.Value == path1)
                 {
                     prevAdd = img.Value;
                     ifFound = true;
-                }
-                else if (img.Value == path2)
-                {
-                    ifFound = false;
-                    break;
                 }
             }
         }
@@ -810,6 +811,11 @@ namespace stajcsharp
             foreach (var img in imagePaths)
             {
                 currAdd = img.Value;
+                if(img.Value == path2)
+                {
+                    ifFound = false;
+                    break;
+                }
                 if (ifFound)
                 {
                     string prevFilePath = Path.Combine(newFolderPath, Path.GetFileNameWithoutExtension(prevAdd) + ".json");
@@ -817,15 +823,10 @@ namespace stajcsharp
                     Calculations.calcSepBox(prevFilePath, currFilePath, Calculations.calcPI(Calculations.CalcDiffs(begFilePath, endFilePath), diff), selectedBoxTrack);
                     prevAdd = currAdd;
                 }
-                if (img.Value == path1)
+                else if (img.Value == path1)
                 {
                     prevAdd = img.Value;
                     ifFound = true;
-                }
-                else if (img.Value == path2)
-                {
-                    ifFound = false;
-                    break;
                 }
             }
 
