@@ -1,17 +1,17 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\Eren\\Desktop\\Yeni klas\u00F6r\\",
+  "WorkspaceRootPath": "C:\\Users\\Eren\\Desktop\\Image_Annotation_Tool\\Image_Annotation_Tool\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{F3143B28-EB02-4DDB-84BC-842894CC7709}|Image_Annotation_Tool.csproj|c:\\users\\eren\\desktop\\yeni klas\u00F6r\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{F3143B28-EB02-4DDB-84BC-842894CC7709}|Image_Annotation_Tool.csproj|c:\\users\\eren\\desktop\\image_annotation_tool\\image_annotation_tool\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F3143B28-EB02-4DDB-84BC-842894CC7709}|Image_Annotation_Tool.csproj|solutionrelative:form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F3143B28-EB02-4DDB-84BC-842894CC7709}|Image_Annotation_Tool.csproj|c:\\users\\eren\\desktop\\yeni klas\u00F6r\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "AbsoluteMoniker": "D:0:0:{F3143B28-EB02-4DDB-84BC-842894CC7709}|Image_Annotation_Tool.csproj|c:\\users\\eren\\desktop\\image_annotation_tool\\image_annotation_tool\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{F3143B28-EB02-4DDB-84BC-842894CC7709}|Image_Annotation_Tool.csproj|solutionrelative:form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F3143B28-EB02-4DDB-84BC-842894CC7709}|Image_Annotation_Tool.csproj|c:\\users\\eren\\desktop\\yeni klas\u00F6r\\classes\\calculations.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{F3143B28-EB02-4DDB-84BC-842894CC7709}|Image_Annotation_Tool.csproj|c:\\users\\eren\\desktop\\image_annotation_tool\\image_annotation_tool\\classes\\calculations.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F3143B28-EB02-4DDB-84BC-842894CC7709}|Image_Annotation_Tool.csproj|solutionrelative:classes\\calculations.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
@@ -32,11 +32,11 @@
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "Form1.cs",
-              "DocumentMoniker": "C:\\Users\\Eren\\Desktop\\Yeni klas\u00F6r\\Form1.cs",
+              "DocumentMoniker": "C:\\Users\\Eren\\Desktop\\Image_Annotation_Tool\\Image_Annotation_Tool\\Form1.cs",
               "RelativeDocumentMoniker": "Form1.cs",
-              "ToolTip": "C:\\Users\\Eren\\Desktop\\Yeni klas\u00F6r\\Form1.cs",
+              "ToolTip": "C:\\Users\\Eren\\Desktop\\Image_Annotation_Tool\\Image_Annotation_Tool\\Form1.cs",
               "RelativeToolTip": "Form1.cs",
-              "ViewState": "AQIAAI8CAAAAAAAAAADwv5cCAAAMAAAA",
+              "ViewState": "AQIAAIMDAAAAAAAAAAAAAIMDAAA3AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-01-16T07:48:39.436Z",
               "EditorCaption": ""
@@ -45,9 +45,9 @@
               "$type": "Document",
               "DocumentIndex": 2,
               "Title": "Calculations.cs",
-              "DocumentMoniker": "C:\\Users\\Eren\\Desktop\\Yeni klas\u00F6r\\Classes\\Calculations.cs",
+              "DocumentMoniker": "C:\\Users\\Eren\\Desktop\\Image_Annotation_Tool\\Image_Annotation_Tool\\Classes\\Calculations.cs",
               "RelativeDocumentMoniker": "Classes\\Calculations.cs",
-              "ToolTip": "C:\\Users\\Eren\\Desktop\\Yeni klas\u00F6r\\Classes\\Calculations.cs",
+              "ToolTip": "C:\\Users\\Eren\\Desktop\\Image_Annotation_Tool\\Image_Annotation_Tool\\Classes\\Calculations.cs",
               "RelativeToolTip": "Classes\\Calculations.cs",
               "ViewState": "AQIAABkAAAAAAAAAAAA/wAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -57,9 +57,9 @@
               "$type": "Document",
               "DocumentIndex": 1,
               "Title": "Form1.cs [Tasar\u0131m]",
-              "DocumentMoniker": "C:\\Users\\Eren\\Desktop\\Yeni klas\u00F6r\\Form1.cs",
+              "DocumentMoniker": "C:\\Users\\Eren\\Desktop\\Image_Annotation_Tool\\Image_Annotation_Tool\\Form1.cs",
               "RelativeDocumentMoniker": "Form1.cs",
-              "ToolTip": "C:\\Users\\Eren\\Desktop\\Yeni klas\u00F6r\\Form1.cs [Tasar\u0131m]",
+              "ToolTip": "C:\\Users\\Eren\\Desktop\\Image_Annotation_Tool\\Image_Annotation_Tool\\Form1.cs [Tasar\u0131m]",
               "RelativeToolTip": "Form1.cs [Tasar\u0131m]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-01-15T13:57:44.311Z",

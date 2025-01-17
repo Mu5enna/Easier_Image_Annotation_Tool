@@ -30,14 +30,14 @@ namespace stajcsharp
         private static List<Pen> pens = new List<Pen>() { Pens.Green, Pens.Yellow, Pens.Purple, Pens.Orange, Pens.Pink, Pens.Brown, Pens.Cyan, Pens.Magenta, Pens.Gray, Pens.Black, Pens.White, Pens.Beige };
         private SelectionRectangle selectedRectangle = null;
         private string returned, resizeHandle = string.Empty, newFolderPath;
-        private int returned2;
+        private int returned2, copyId;
         private Rectangle selectionRect = Rectangle.Empty;
-        private bool isDragging = false, isResizing = false;
+        private bool isDragging = false, isResizing = false, isCopyA;
         private Point startPoint, currentMousePoint;
         private int index = 0, rightClickIndex, selectedBoxTrack;
-        private string path1, path2;
+        private string path1, path2, copyPath;
         SelectionRectangle? clickedRectangle;
-        private bool isFirst = true;
+        private bool isFirst = true, isAPress = false, isCtrlPress = false;
         public Form1()
         {
             InitializeComponent();
@@ -599,7 +599,7 @@ namespace stajcsharp
             foreach (var img in imagePaths)
             {
                 currAdd = img.Value;
-                if(img.Value == path2)
+                if (img.Value == path2)
                 {
                     ifFound = false;
                     break;
@@ -811,7 +811,7 @@ namespace stajcsharp
             foreach (var img in imagePaths)
             {
                 currAdd = img.Value;
-                if(img.Value == path2)
+                if (img.Value == path2)
                 {
                     ifFound = false;
                     break;
@@ -842,8 +842,11 @@ namespace stajcsharp
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
+            if (e.Control) { isCtrlPress = true; }
 
-            if (e.Control && e.KeyCode == Keys.S) { button6_Click(sender, e); }
+            if (e.KeyCode == Keys.A) { isAPress = true; }
+
+            if (isCtrlPress && e.KeyCode == Keys.S) { button6_Click(sender, e); }
 
             else if (e.KeyCode == Keys.Delete) { button7_Click(sender, e); }
 
@@ -857,6 +860,117 @@ namespace stajcsharp
                 if (listBox1.SelectedIndex != listBox1.Items.Count - 1) { listBox1.SelectedIndex = listBox1.SelectedIndex + 1; }
             }
 
+            else if (isCtrlPress && isAPress && e.KeyCode == Keys.C)
+            {
+                tbTracker.Text = "Ctrl+A+C";
+                string selectedFileName = listBox1.SelectedItem.ToString();
+                if (imagePaths.TryGetValue(selectedFileName, out string selectedImagePath))
+                {
+                    pictureBox1.Image = Image.FromFile(selectedImagePath);
+                }
+
+                copyPath = Path.Combine(newFolderPath, Path.GetFileNameWithoutExtension(selectedImagePath) + ".json");
+
+                isCopyA = true;
+                isAPress = false;
+            }
+
+            else if (isCtrlPress && e.KeyCode == Keys.C)
+            {
+                copyPath = string.Empty;
+                if(selectedRectangle != null)
+                {
+                    string selectedFileName = listBox1.SelectedItem.ToString();
+                    if (imagePaths.TryGetValue(selectedFileName, out string selectedImagePath))
+                    {
+                        pictureBox1.Image = Image.FromFile(selectedImagePath);
+                    }
+
+                    copyPath = Path.Combine(newFolderPath, Path.GetFileNameWithoutExtension(selectedImagePath) + ".json");
+
+                    isCopyA = false;
+
+                    copyId = selectedRectangle.Id;
+                }
+            }
+
+            else if (e.Control && e.KeyCode == Keys.V)
+            {
+                tbTracker.Text = "Ctrl+V";
+                if (isCopyA && copyPath != string.Empty)
+                {
+                    var jsonData = File.ReadAllText(copyPath);
+
+                    var jsonObject = JsonConvert.DeserializeObject<Dictionary<string, JsonData>>(jsonData);
+
+                    foreach (var entry in jsonObject)
+                    {
+                        string entryID = entry.Key;
+                        List<float> boxCoor = new List<float>() { entry.Value.Box[0], entry.Value.Box[1], entry.Value.Box[2], entry.Value.Box[3] };
+
+                        RectangleF rectInPictureBox = ImageCoordinatesToPictureBox(pictureBox1, new RectangleF(
+                            boxCoor[0],
+                            boxCoor[1],
+                            (boxCoor[2] - boxCoor[0]),
+                            (boxCoor[3] - boxCoor[1])
+                        ));
+
+                        // Dikdörtgeni rectangles listesine ekle
+                        var newRectangle = new SelectionRectangle
+                        {
+                            Rect = rectInPictureBox,
+                            IsSelected = false,
+                            Id = rectangles.Any() ? rectangles.Max(r => r.Id) + 1 : 0
+                        };
+                        rectangles.Add(newRectangle);
+                        trackIds[newRectangle.Id] = (int)entry.Value.TrackId;
+                        selectionAttPairs[newRectangle.Id] = (int)entry.Value.Class;
+                    }
+                    pictureBox1.Invalidate();
+                }
+
+                else if (!isCopyA && copyPath != string.Empty)
+                {
+                    var jsonData = File.ReadAllText(copyPath);
+
+                    var jsonObject = JsonConvert.DeserializeObject<Dictionary<string, JsonData>>(jsonData);
+
+                    foreach (var entry in jsonObject)
+                    {
+                        if(entry.Key == copyId.ToString())
+                        {
+                            string entryID = entry.Key;
+                            List<float> boxCoor = new List<float>() { entry.Value.Box[0], entry.Value.Box[1], entry.Value.Box[2], entry.Value.Box[3] };
+
+                            RectangleF rectInPictureBox = ImageCoordinatesToPictureBox(pictureBox1, new RectangleF(
+                                boxCoor[0],
+                                boxCoor[1],
+                                (boxCoor[2] - boxCoor[0]),
+                                (boxCoor[3] - boxCoor[1])
+                            ));
+
+                            // Dikdörtgeni rectangles listesine ekle
+                            var newRectangle = new SelectionRectangle
+                            {
+                                Rect = rectInPictureBox,
+                                IsSelected = false,
+                                Id = rectangles.Any() ? rectangles.Max(r => r.Id) + 1 : 0
+                            };
+                            rectangles.Add(newRectangle);
+                            trackIds[newRectangle.Id] = (int)entry.Value.TrackId;
+                            selectionAttPairs[newRectangle.Id] = (int)entry.Value.Class;
+                        }
+                        pictureBox1.Invalidate();
+                    }
+                }
+            }
+        }
+
+        private void Form1_KeyUp(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode == Keys.A) { isAPress = false; }
+            if(e.KeyCode == Keys.ControlKey) { isCtrlPress = false; }
+            pictureBox1.Invalidate();
         }
 
         private void Form1_Load(object sender, EventArgs e)

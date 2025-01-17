@@ -60,11 +60,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Eren\\Desktop\\Yeni klasör\\Image_Annotation_Tool.csproj",
+      "projectUniqueName": "C:\\Users\\Eren\\Desktop\\Image_Annotation_Tool\\Image_Annotation_Tool\\Image_Annotation_Tool.csproj",
       "projectName": "Image_Annotation_Tool",
-      "projectPath": "C:\\Users\\Eren\\Desktop\\Yeni klasör\\Image_Annotation_Tool.csproj",
+      "projectPath": "C:\\Users\\Eren\\Desktop\\Image_Annotation_Tool\\Image_Annotation_Tool\\Image_Annotation_Tool.csproj",
       "packagesPath": "C:\\Users\\Eren\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Eren\\Desktop\\Yeni klasör\\obj\\",
+      "outputPath": "C:\\Users\\Eren\\Desktop\\Image_Annotation_Tool\\Image_Annotation_Tool\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Eren\\AppData\\Roaming\\NuGet\\NuGet.Config",

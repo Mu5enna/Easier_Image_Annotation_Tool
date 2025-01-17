@@ -289,6 +289,7 @@
             WindowState = FormWindowState.Maximized;
             Load += Form1_Load;
             KeyDown += Form1_KeyDown;
+            KeyUp += Form1_KeyUp;
             contextMenuStrip1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDown1).EndInit();
