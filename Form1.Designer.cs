@@ -147,6 +147,7 @@
             checkedListBox1.ThreeDCheckBoxes = true;
             checkedListBox1.ItemCheck += checkedListBox1_ItemCheck;
             checkedListBox1.SelectedIndexChanged += checkedListBox1_SelectedIndexChanged;
+            checkedListBox1.KeyDown += checkedListBox1_KeyDown;
             checkedListBox1.MouseDown += checkedListBox1_MouseDown;
             // 
             // numericUpDown1
@@ -154,9 +155,11 @@
             numericUpDown1.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             numericUpDown1.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 162);
             numericUpDown1.Location = new Point(794, 402);
+            numericUpDown1.Maximum = new decimal(new int[] { 300, 0, 0, 0 });
             numericUpDown1.Name = "numericUpDown1";
             numericUpDown1.Size = new Size(64, 33);
             numericUpDown1.TabIndex = 8;
+            numericUpDown1.KeyDown += numericUpDown1_KeyDown_1;
             // 
             // label1
             // 
@@ -178,6 +181,8 @@
             button5.Text = "Add";
             button5.UseVisualStyleBackColor = true;
             button5.Click += button5_Click;
+            button5.KeyDown += button5_KeyDown;
+            button5.PreviewKeyDown += button5_PreviewKeyDown;
             // 
             // buttonSave
             // 
@@ -260,6 +265,7 @@
             comboBox1.Sorted = true;
             comboBox1.TabIndex = 16;
             comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
+            comboBox1.KeyDown += comboBox1_KeyDown;
             // 
             // linkLabel1
             // 
@@ -298,7 +304,7 @@
             KeyPreview = true;
             Name = "Form1";
             ShowIcon = false;
-            Text = "Image Annotator";
+            Text = "   Image Annotator";
             WindowState = FormWindowState.Maximized;
             Load += Form1_Load;
             KeyDown += Form1_KeyDown;

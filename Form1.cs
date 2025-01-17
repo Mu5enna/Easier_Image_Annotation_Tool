@@ -27,7 +27,7 @@ namespace stajcsharp
         //seçilen kare idsinin track id baðlantýsý
         private Dictionary<int, int> trackIds = new Dictionary<int, int>();
         //renkler
-        private static List<Pen> pens = new List<Pen>() { Pens.Green, Pens.Yellow, Pens.Purple, Pens.Orange, Pens.Pink, Pens.Brown, Pens.Cyan, Pens.Magenta, Pens.Gray, Pens.Black, Pens.White, Pens.Beige };
+        private static List<Pen> pens = new List<Pen>() { Pens.Green, Pens.Yellow, Pens.Purple, Pens.Orange, Pens.Pink, Pens.Brown, Pens.Cyan, Pens.Magenta, Pens.Turquoise, Pens.Black, Pens.White, Pens.Beige };
         private SelectionRectangle selectedRectangle = null;
         private string returned, resizeHandle = string.Empty, newFolderPath;
         private int returned2, copyId;
@@ -293,7 +293,7 @@ namespace stajcsharp
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show("Hata: " + ex);
             }
@@ -469,7 +469,6 @@ namespace stajcsharp
 
         private void checkedListBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            checkedListBox1.ClearSelected();
             if (selectedRectangle is not null)
             {
                 if (index == 0)
@@ -483,6 +482,7 @@ namespace stajcsharp
                 }
                 button6_Click(sender, e);
             }
+            checkedListBox1.ClearSelected();
         }
 
         private void checkedListBox1_ItemCheck(object sender, ItemCheckEventArgs e)
@@ -853,42 +853,28 @@ namespace stajcsharp
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Control) { isCtrlPress = true; }
-
-            if (e.KeyCode == Keys.A) { isAPress = true; }
-
-            if (isCtrlPress && e.KeyCode == Keys.S) { button6_Click(sender, e); }
-
-            else if (e.KeyCode == Keys.Delete) { button7_Click(sender, e); }
-
-            else if (e.KeyCode == Keys.Up)
+            if (pictureBox1.Image != null)
             {
-                if (listBox1.SelectedIndex != 0) { listBox1.SelectedIndex = listBox1.SelectedIndex - 1; }
-            }
+                if (e.Control) { isCtrlPress = true; }
 
-            else if (e.KeyCode == Keys.Down)
-            {
-                if (listBox1.SelectedIndex != listBox1.Items.Count - 1) { listBox1.SelectedIndex = listBox1.SelectedIndex + 1; }
-            }
+                if (e.KeyCode == Keys.A) { isAPress = true; }
 
-            else if (isCtrlPress && isAPress && e.KeyCode == Keys.C)
-            {
-                string selectedFileName = listBox1.SelectedItem.ToString();
-                if (imagePaths.TryGetValue(selectedFileName, out string selectedImagePath))
+                if (isCtrlPress && e.KeyCode == Keys.S) { button6_Click(sender, e); }
+
+                else if (e.KeyCode == Keys.Delete) { button7_Click(sender, e); }
+
+                else if (e.KeyCode == Keys.Up)
                 {
-                    pictureBox1.Image = Image.FromFile(selectedImagePath);
+                    if (listBox1.SelectedIndex != 0) { listBox1.SelectedIndex = listBox1.SelectedIndex - 1; }
                 }
 
-                copyPath = Path.Combine(newFolderPath, Path.GetFileNameWithoutExtension(selectedImagePath) + ".json");
+                else if (e.KeyCode == Keys.Down)
+                {
+                    if (listBox1.SelectedIndex != listBox1.Items.Count - 1) { listBox1.SelectedIndex = listBox1.SelectedIndex + 1; }
 
-                isCopyA = true;
-                isAPress = false;
-            }
+                }
 
-            else if (isCtrlPress && e.KeyCode == Keys.C)
-            {
-                copyPath = string.Empty;
-                if (selectedRectangle != null)
+                else if (isCtrlPress && isAPress && e.KeyCode == Keys.C)
                 {
                     string selectedFileName = listBox1.SelectedItem.ToString();
                     if (imagePaths.TryGetValue(selectedFileName, out string selectedImagePath))
@@ -898,55 +884,38 @@ namespace stajcsharp
 
                     copyPath = Path.Combine(newFolderPath, Path.GetFileNameWithoutExtension(selectedImagePath) + ".json");
 
-                    isCopyA = false;
-
-                    copyId = selectedRectangle.Id;
+                    isCopyA = true;
+                    isAPress = false;
                 }
-            }
 
-            else if (e.Control && e.KeyCode == Keys.V)
-            {
-                if (isCopyA && copyPath != string.Empty)
+                else if (isCtrlPress && e.KeyCode == Keys.C)
                 {
-                    var jsonData = File.ReadAllText(copyPath);
-
-                    var jsonObject = JsonConvert.DeserializeObject<Dictionary<string, JsonData>>(jsonData);
-
-                    foreach (var entry in jsonObject)
+                    copyPath = string.Empty;
+                    if (selectedRectangle != null)
                     {
-                        string entryID = entry.Key;
-                        List<float> boxCoor = new List<float>() { entry.Value.Box[0], entry.Value.Box[1], entry.Value.Box[2], entry.Value.Box[3] };
-
-                        RectangleF rectInPictureBox = ImageCoordinatesToPictureBox(pictureBox1, new RectangleF(
-                            boxCoor[0],
-                            boxCoor[1],
-                            (boxCoor[2] - boxCoor[0]),
-                            (boxCoor[3] - boxCoor[1])
-                        ));
-
-                        // Dikdörtgeni rectangles listesine ekle
-                        var newRectangle = new SelectionRectangle
+                        string selectedFileName = listBox1.SelectedItem.ToString();
+                        if (imagePaths.TryGetValue(selectedFileName, out string selectedImagePath))
                         {
-                            Rect = rectInPictureBox,
-                            IsSelected = false,
-                            Id = rectangles.Any() ? rectangles.Max(r => r.Id) + 1 : 0
-                        };
-                        rectangles.Add(newRectangle);
-                        trackIds[newRectangle.Id] = (int)entry.Value.TrackId;
-                        selectionAttPairs[newRectangle.Id] = (int)entry.Value.Class;
+                            pictureBox1.Image = Image.FromFile(selectedImagePath);
+                        }
+
+                        copyPath = Path.Combine(newFolderPath, Path.GetFileNameWithoutExtension(selectedImagePath) + ".json");
+
+                        isCopyA = false;
+
+                        copyId = selectedRectangle.Id;
                     }
-                    pictureBox1.Invalidate();
                 }
 
-                else if (!isCopyA && copyPath != string.Empty)
+                else if (e.Control && e.KeyCode == Keys.V)
                 {
-                    var jsonData = File.ReadAllText(copyPath);
-
-                    var jsonObject = JsonConvert.DeserializeObject<Dictionary<string, JsonData>>(jsonData);
-
-                    foreach (var entry in jsonObject)
+                    if (isCopyA && copyPath != string.Empty)
                     {
-                        if (entry.Key == copyId.ToString())
+                        var jsonData = File.ReadAllText(copyPath);
+
+                        var jsonObject = JsonConvert.DeserializeObject<Dictionary<string, JsonData>>(jsonData);
+
+                        foreach (var entry in jsonObject)
                         {
                             string entryID = entry.Key;
                             List<float> boxCoor = new List<float>() { entry.Value.Box[0], entry.Value.Box[1], entry.Value.Box[2], entry.Value.Box[3] };
@@ -971,6 +940,41 @@ namespace stajcsharp
                         }
                         pictureBox1.Invalidate();
                     }
+
+                    else if (!isCopyA && copyPath != string.Empty)
+                    {
+                        var jsonData = File.ReadAllText(copyPath);
+
+                        var jsonObject = JsonConvert.DeserializeObject<Dictionary<string, JsonData>>(jsonData);
+
+                        foreach (var entry in jsonObject)
+                        {
+                            if (entry.Key == copyId.ToString())
+                            {
+                                string entryID = entry.Key;
+                                List<float> boxCoor = new List<float>() { entry.Value.Box[0], entry.Value.Box[1], entry.Value.Box[2], entry.Value.Box[3] };
+
+                                RectangleF rectInPictureBox = ImageCoordinatesToPictureBox(pictureBox1, new RectangleF(
+                                    boxCoor[0],
+                                    boxCoor[1],
+                                    (boxCoor[2] - boxCoor[0]),
+                                    (boxCoor[3] - boxCoor[1])
+                                ));
+
+                                // Dikdörtgeni rectangles listesine ekle
+                                var newRectangle = new SelectionRectangle
+                                {
+                                    Rect = rectInPictureBox,
+                                    IsSelected = false,
+                                    Id = rectangles.Any() ? rectangles.Max(r => r.Id) + 1 : 0
+                                };
+                                rectangles.Add(newRectangle);
+                                trackIds[newRectangle.Id] = (int)entry.Value.TrackId;
+                                selectionAttPairs[newRectangle.Id] = (int)entry.Value.Class;
+                            }
+                            pictureBox1.Invalidate();
+                        }
+                    }
                 }
             }
         }
@@ -990,6 +994,7 @@ namespace stajcsharp
             if (!File.Exists(filePath))
             {
                 MessageBox.Show("'ids.txt' Couldn't Be Found! A New One Has Been Created at: " + filePath);
+                File.Create(filePath).Dispose();
                 File.WriteAllText(filePath, "[Class Name] , [Class Id] (Do not delete this line, the spaces matter.)");
             }
             else
@@ -1055,6 +1060,40 @@ namespace stajcsharp
         private void listBox1_KeyPress(object sender, KeyPressEventArgs e)
         {
             e.Handled = true;
+        }
+
+        private void checkedListBox1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Up || e.KeyCode == Keys.Down)
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void comboBox1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Up || e.KeyCode == Keys.Down)
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void button5_KeyDown(object sender, KeyEventArgs e)
+        {
+            e.Handled = true;
+        }
+
+        private void button5_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            e.IsInputKey = true;
+        }
+
+        private void numericUpDown1_KeyDown_1(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                button5_Click(sender, e);
+            }
         }
     }
 }
