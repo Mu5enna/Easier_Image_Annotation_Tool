@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Eren\\Desktop\\Image_Annotation_Tool\\Image_Annotation_Tool\\Image_Annotation_Tool.csproj": {}
+    "C:\\Users\\Serhat\\Desktop\\Image_Annotation_Tool\\Image_Annotation_Tool.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Eren\\Desktop\\Image_Annotation_Tool\\Image_Annotation_Tool\\Image_Annotation_Tool.csproj": {
+    "C:\\Users\\Serhat\\Desktop\\Image_Annotation_Tool\\Image_Annotation_Tool.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Eren\\Desktop\\Image_Annotation_Tool\\Image_Annotation_Tool\\Image_Annotation_Tool.csproj",
+        "projectUniqueName": "C:\\Users\\Serhat\\Desktop\\Image_Annotation_Tool\\Image_Annotation_Tool.csproj",
         "projectName": "Image_Annotation_Tool",
-        "projectPath": "C:\\Users\\Eren\\Desktop\\Image_Annotation_Tool\\Image_Annotation_Tool\\Image_Annotation_Tool.csproj",
-        "packagesPath": "C:\\Users\\Eren\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Eren\\Desktop\\Image_Annotation_Tool\\Image_Annotation_Tool\\obj\\",
+        "projectPath": "C:\\Users\\Serhat\\Desktop\\Image_Annotation_Tool\\Image_Annotation_Tool.csproj",
+        "packagesPath": "C:\\Users\\Serhat\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Serhat\\Desktop\\Image_Annotation_Tool\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Eren\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Serhat\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -69,7 +69,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.302/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

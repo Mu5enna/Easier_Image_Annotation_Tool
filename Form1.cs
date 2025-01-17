@@ -236,6 +236,10 @@ namespace stajcsharp
                         rectangles.ForEach(r => r.IsSelected = false); // Tüm seçimleri deselect yap
                         clickedRectangle.IsSelected = true;
                         selectedRectangle = clickedRectangle;
+                        var val = rectangles.IndexOf(clickedRectangle);
+                        var val1 = rectangles[0];
+                        rectangles[0] = clickedRectangle;
+                        rectangles[val] = val1;
                         checkAtt();
                         checkTrack();
                     }
@@ -862,7 +866,6 @@ namespace stajcsharp
 
             else if (isCtrlPress && isAPress && e.KeyCode == Keys.C)
             {
-                tbTracker.Text = "Ctrl+A+C";
                 string selectedFileName = listBox1.SelectedItem.ToString();
                 if (imagePaths.TryGetValue(selectedFileName, out string selectedImagePath))
                 {
@@ -878,7 +881,7 @@ namespace stajcsharp
             else if (isCtrlPress && e.KeyCode == Keys.C)
             {
                 copyPath = string.Empty;
-                if(selectedRectangle != null)
+                if (selectedRectangle != null)
                 {
                     string selectedFileName = listBox1.SelectedItem.ToString();
                     if (imagePaths.TryGetValue(selectedFileName, out string selectedImagePath))
@@ -896,7 +899,6 @@ namespace stajcsharp
 
             else if (e.Control && e.KeyCode == Keys.V)
             {
-                tbTracker.Text = "Ctrl+V";
                 if (isCopyA && copyPath != string.Empty)
                 {
                     var jsonData = File.ReadAllText(copyPath);
@@ -937,7 +939,7 @@ namespace stajcsharp
 
                     foreach (var entry in jsonObject)
                     {
-                        if(entry.Key == copyId.ToString())
+                        if (entry.Key == copyId.ToString())
                         {
                             string entryID = entry.Key;
                             List<float> boxCoor = new List<float>() { entry.Value.Box[0], entry.Value.Box[1], entry.Value.Box[2], entry.Value.Box[3] };
@@ -968,8 +970,8 @@ namespace stajcsharp
 
         private void Form1_KeyUp(object sender, KeyEventArgs e)
         {
-            if(e.KeyCode == Keys.A) { isAPress = false; }
-            if(e.KeyCode == Keys.ControlKey) { isCtrlPress = false; }
+            if (e.KeyCode == Keys.A) { isAPress = false; }
+            if (e.KeyCode == Keys.ControlKey) { isCtrlPress = false; }
             pictureBox1.Invalidate();
         }
 
@@ -980,7 +982,8 @@ namespace stajcsharp
             string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ids.txt");
             if (!File.Exists(filePath))
             {
-                MessageBox.Show("'ids.txt' Couldn't Found! Check the File Path and Restart");
+                MessageBox.Show("'ids.txt' Couldn't Be Found! A New One Has Been Created at: " + filePath);
+                File.WriteAllText(filePath, "[Class Name] , [Class Id] (Do not delete this line, the spaces matter.)");
             }
             else
             {
@@ -1032,6 +1035,12 @@ namespace stajcsharp
             {
                 e.Handled = true;
             }
+        }
+
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Info info = new Info();
+            info.ShowDialog();
         }
     }
 }
