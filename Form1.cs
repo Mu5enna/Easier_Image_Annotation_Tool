@@ -223,72 +223,79 @@ namespace stajcsharp
 
         private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
         {
-            if (pictureBox1.Image != null)
+            try
             {
-                if (e.Button == MouseButtons.Right)
+                if (pictureBox1.Image != null)
                 {
-                    // Týklanan dikdörtgeni bul
-                    rectangles = rectangles.OrderBy(r => r.Rect.Width * r.Rect.Height).ToList();
-                    clickedRectangle = rectangles.FirstOrDefault(r => r.Rect.Contains(e.Location));
-                    if (clickedRectangle != null)
+                    if (e.Button == MouseButtons.Right)
                     {
-                        // Seçili dikdörtgeni güncelle
-                        rectangles.ForEach(r => r.IsSelected = false); // Tüm seçimleri deselect yap
-                        clickedRectangle.IsSelected = true;
-                        selectedRectangle = clickedRectangle;
-                        var val = rectangles.IndexOf(clickedRectangle);
-                        var val1 = rectangles[0];
-                        rectangles[0] = clickedRectangle;
-                        rectangles[val] = val1;
-                        checkAtt();
-                        checkTrack();
-                    }
-                }
-
-                if (e.Button == MouseButtons.Left)
-                {
-                    if (clickedRectangle != null && rectangles.FirstOrDefault(r => r.Rect.Contains(e.Location)) == clickedRectangle)
-                    {
-                        // Mevcut seçimde bir tutma noktasý týklandý mý kontrol et
-                        resizeHandle = clickedRectangle.GetResizeHandle(e.Location);
-
-                        if (!string.IsNullOrEmpty(resizeHandle))
+                        // Týklanan dikdörtgeni bul
+                        rectangles = rectangles.OrderBy(r => r.Rect.Width * r.Rect.Height).ToList();
+                        clickedRectangle = rectangles.FirstOrDefault(r => r.Rect.Contains(e.Location));
+                        if (clickedRectangle != null)
                         {
-                            isResizing = true;
+                            // Seçili dikdörtgeni güncelle
+                            rectangles.ForEach(r => r.IsSelected = false); // Tüm seçimleri deselect yap
+                            clickedRectangle.IsSelected = true;
+                            selectedRectangle = clickedRectangle;
+                            var val = rectangles.IndexOf(clickedRectangle);
+                            var val1 = rectangles[0];
+                            rectangles[0] = clickedRectangle;
+                            rectangles[val] = val1;
+                            checkAtt();
+                            checkTrack();
+                        }
+                    }
+
+                    if (e.Button == MouseButtons.Left)
+                    {
+                        if (clickedRectangle != null && rectangles.FirstOrDefault(r => r.Rect.Contains(e.Location)) == clickedRectangle)
+                        {
+                            // Mevcut seçimde bir tutma noktasý týklandý mý kontrol et
+                            resizeHandle = clickedRectangle.GetResizeHandle(e.Location);
+
+                            if (!string.IsNullOrEmpty(resizeHandle))
+                            {
+                                isResizing = true;
+                            }
+                            else
+                            {
+                                isDragging = true;
+                            }
                         }
                         else
                         {
-                            isDragging = true;
+                            // Yeni bir dikdörtgen ekle
+                            var newRectangle = new SelectionRectangle
+                            {
+                                Rect = new Rectangle(e.Location, Size.Empty),
+                                IsSelected = true,
+                                Id = rectangles.Any() ? rectangles.Max(r => r.Id) + 1 : 0
+                            };
+
+                            rectangles.ForEach(r => r.IsSelected = false); // Tüm seçimleri deselect yap
+                            rectangles.Add(newRectangle);
+                            rectangles = rectangles.OrderBy(r => r.Rect.Width * r.Rect.Height).ToList();
+                            clickedRectangle = newRectangle;
+                            clickedRectangle.IsSelected = true;
+                            selectedRectangle = clickedRectangle;
+                            checkedListBox1.SetItemChecked(0, true);
+                            numericUpDown1.Value = 0;
+                            selectionAttPairs.Add(newRectangle.Id, 0);
+                            trackIds.Add(newRectangle.Id, 0);
+
+                            isDragging = false;
+                            isResizing = false;
                         }
+
+                        startPoint = e.Location;
+                        (sender as PictureBox).Invalidate();
                     }
-                    else
-                    {
-                        // Yeni bir dikdörtgen ekle
-                        var newRectangle = new SelectionRectangle
-                        {
-                            Rect = new Rectangle(e.Location, Size.Empty),
-                            IsSelected = true,
-                            Id = rectangles.Any() ? rectangles.Max(r => r.Id) + 1 : 0
-                        };
-
-                        rectangles.ForEach(r => r.IsSelected = false); // Tüm seçimleri deselect yap
-                        rectangles.Add(newRectangle);
-                        rectangles = rectangles.OrderBy(r => r.Rect.Width * r.Rect.Height).ToList();
-                        clickedRectangle = newRectangle;
-                        clickedRectangle.IsSelected = true;
-                        selectedRectangle = clickedRectangle;
-                        checkedListBox1.SetItemChecked(0, true);
-                        numericUpDown1.Value = 0;
-                        selectionAttPairs.Add(newRectangle.Id, 0);
-                        trackIds.Add(newRectangle.Id, 0);
-
-                        isDragging = false;
-                        isResizing = false;
-                    }
-
-                    startPoint = e.Location;
-                    (sender as PictureBox).Invalidate();
                 }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("Hata: " + ex);
             }
         }
 
@@ -1031,16 +1038,23 @@ namespace stajcsharp
 
         private void listBox1_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Up || e.KeyCode == Keys.Down)
-            {
-                e.Handled = true;
-            }
+            e.Handled = true;
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Info info = new Info();
             info.ShowDialog();
+        }
+
+        private void listBox1_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            e.IsInputKey = true;
+        }
+
+        private void listBox1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = true;
         }
     }
 }

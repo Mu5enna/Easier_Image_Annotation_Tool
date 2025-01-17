@@ -67,7 +67,9 @@
             listBox1.TabIndex = 0;
             listBox1.SelectedIndexChanged += listBox1_SelectedIndexChanged;
             listBox1.KeyDown += listBox1_KeyDown;
+            listBox1.KeyPress += listBox1_KeyPress;
             listBox1.MouseDown += listBox1_MouseDown;
+            listBox1.PreviewKeyDown += listBox1_PreviewKeyDown;
             // 
             // contextMenuStrip1
             // 
