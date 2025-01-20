@@ -138,9 +138,9 @@ namespace stajcsharp
                         }
                     }
                     isFirst = false;
+                    listBox1.SelectedIndex = 0;
                 }
             }
-            button6_Click(sender, e);
         }
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)

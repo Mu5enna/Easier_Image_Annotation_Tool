@@ -102,9 +102,9 @@ namespace Image_Annotation_Tool
             {
                 foreach (var entryPrev in prevJsonObject)
                 {
-                    if (entryPrev.Value.TrackId == calcPI[i][4])
+                    if (entryPrev.Value.TrackId == calcPI[i][4] && !currJsonObject.Values.Select(entry => entry.TrackId).Contains(entryPrev.Value.TrackId))
                     {
-                        currJsonObject[entryPrev.Key] = new JsonData
+                        currJsonObject[avBoxId(currAddr).ToString()] = new JsonData
                         {
                             Box = new List<float> { entryPrev.Value.Box[0] + calcPI[i][0], entryPrev.Value.Box[1] + calcPI[i][1], entryPrev.Value.Box[2] + calcPI[i][2], entryPrev.Value.Box[3] + calcPI[i][3] },
                             Class = entryPrev.Value.Class,
@@ -131,9 +131,9 @@ namespace Image_Annotation_Tool
             {
                 foreach (var entryPrev in prevJsonObject)
                 {
-                    if (entryPrev.Value.TrackId == calcPI[i][4] && selectedBoxTrack == entryPrev.Value.TrackId)
+                    if (entryPrev.Value.TrackId == calcPI[i][4] && selectedBoxTrack == entryPrev.Value.TrackId && !currJsonObject.Values.Select(entry => entry.TrackId).Contains(entryPrev.Value.TrackId))
                     {
-                        currJsonObject[entryPrev.Key] = new JsonData
+                        currJsonObject[avBoxId(currAddr).ToString()] = new JsonData
                         {
                             Box = new List<float> { entryPrev.Value.Box[0] + calcPI[i][0], entryPrev.Value.Box[1] + calcPI[i][1], entryPrev.Value.Box[2] + calcPI[i][2], entryPrev.Value.Box[3] + calcPI[i][3] },
                             Class = entryPrev.Value.Class,
@@ -145,6 +145,24 @@ namespace Image_Annotation_Tool
 
             string updJson = JsonConvert.SerializeObject(currJsonObject, Formatting.Indented);
             File.WriteAllText(currAddr, updJson);
+
+        }
+
+        public static int avBoxId(string addr)
+        {
+            List<int> boxIds = new List<int>();
+
+            var JsonData = File.ReadAllText(addr);
+            var jsonObject = JsonConvert.DeserializeObject<Dictionary<string, JsonData>>(JsonData);
+
+            foreach (var entry in jsonObject)
+            {
+                boxIds.Add(Int32.Parse(entry.Key));
+            }
+
+            if (boxIds.Count == 0) { return 0; }
+
+            else { return boxIds.Max() + 1; }
 
         }
     }
