@@ -22,6 +22,7 @@ namespace stajcsharp
         private List<SelectionRectangle> rectangles = new List<SelectionRectangle>();
         //seçilen kare idsi ile attributelarýnýn checkedlistboxdaki indexe göre baðlantýsý
         private Dictionary<int, int> selectionAttPairs = new Dictionary<int, int>();
+        private Dictionary<int, int> controlAttPairs = new Dictionary<int, int>();
         //attribute isimlerinin classlarla baðlantýsý
         private Dictionary<int, string> attClass = new Dictionary<int, string>();
         //seçilen kare idsinin track id baðlantýsý
@@ -138,9 +139,9 @@ namespace stajcsharp
                         }
                     }
                     isFirst = false;
-                    listBox1.SelectedIndex = 0;
                 }
             }
+            button6_Click(sender, e);
         }
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -565,6 +566,9 @@ namespace stajcsharp
 
             string originalFilePath = imagePaths[selectedItem];
 
+            controlAttPairs = selectionAttPairs.ToDictionary(entry => entry.Key, entry => entry.Value);
+
+
             path1 = originalFilePath;
         }
 
@@ -583,6 +587,19 @@ namespace stajcsharp
             string prevAdd = "", currAdd, endAdd = "", begAdd = "";
             bool ifFound = false;
             int diff = 0;
+            string boxIds = "";
+
+            foreach(var key in controlAttPairs.Keys)
+            {
+                if(controlAttPairs[key] == 0)
+                {
+                    boxIds += key + ", ";
+                }
+            }
+
+            DialogResult result = MessageBox.Show("Box: " + boxIds + " has no class. Do you still want to continue?", "Continue?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (result == DialogResult.No) { return; }
+
 
             foreach (var img in imagePaths)
             {
